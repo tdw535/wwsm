@@ -1,0 +1,9 @@
+- Figure out Bindings for Rust WASM
+- Get CMake structure going
+- Figure out animation
+- Get Docker going to setup as server
+- Set up Virtual machine on pc to be able to build/write code in
+
+Day 2: Start unit test; set up dev environment
+
+Day 1: Get Rust installed; Got HelloWorld working; started using cargo

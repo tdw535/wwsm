@@ -1,0 +1,2 @@
+*.o
+source_cargo/target/*
