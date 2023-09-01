@@ -1,2 +1,5 @@
 *.o
 source_cargo/target/*
+source_cargo/hello-wasm/pkg/*
+source_cargo/hello-wasm/target/*
+
