@@ -1,7 +1,7 @@
 - Figure out Bindings for Rust WASM
 - Get CMake structure going
 - Figure out animation
-- Decide on Docker vs Virutal Machine for remote dev environment
+[x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing
 
 Day 3: Go through tutorial; figure out directory structure
