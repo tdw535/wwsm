@@ -1,5 +1,6 @@
 *.o
-source_cargo/target/*
-source_cargo/hello-wasm/pkg/*
-source_cargo/hello-wasm/target/*
+target/*
+/hello-wasm/pkg/*
+hello-wasm/target/*
+hello-wasm/site/node_modules/*
 
