@@ -1,5 +1,9 @@
 *.o
 target/*
+/compute-engine/pkg/*
+compute-engine/target/*
+compute-engine/site/node_modules/*
+
 /hello-wasm/pkg/*
 hello-wasm/target/*
 hello-wasm/site/node_modules/*

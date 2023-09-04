@@ -1,6 +1,6 @@
 
-import { Universe, Cell } from "hello-wasm";
-import { memory } from "hello-wasm/hello_wasm_bg";
+import { Universe, Cell } from "compute-engine";
+import { memory } from "compute-engine/compute_engine_bg";
 
 const CELL_SIZE = 5; // px
 const GRID_COLOR = "#CCCCCC";
