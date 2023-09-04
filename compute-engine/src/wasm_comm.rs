@@ -44,7 +44,7 @@ pub mod utils {
             let cells = (0..width * height)
                 .map(|i| {
                     if i % 2 == 0 || i % 7 == 0 {
-                        Cell::Alive
+                        Cell::Dead
                     } else {
                         Cell::Dead
                     }
@@ -71,6 +71,10 @@ pub mod utils {
         pub fn cells(&self) -> *const Cell {
             self.cells.as_ptr()
         }
+        pub fn toggle_cell(&mut self, row: u32, column: u32) {
+            let idx = self.get_index(row, column);
+            self.cells[idx].toggle();
+        }
     }
 
     impl Universe {
@@ -92,6 +96,15 @@ pub mod utils {
                 }
             }
             count
+        }
+    }
+
+    impl Cell {
+        fn toggle(&mut self) {
+            *self = match *self {
+                Cell::Dead => Cell::Alive,
+                Cell::Alive => Cell::Dead,
+            };
         }
     }
 
