@@ -5,6 +5,8 @@
 - Figure out testing
 - Figure out directory structure
 [x] Basic WASM w/Game of life
+- Interactivity with buttons
+- Change logic
 
 Day 4: [Work on Testing game of life](https://rustwasm.github.io/docs/book/game-of-life/testing.html#testing-conways-game-of-life)
 
