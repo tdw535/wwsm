@@ -109,7 +109,7 @@ const drawCells = () => {
     for (let col = 0; col < width; col++) {
       const idx = getIndex(row, col);
 
-      ctx.fillStyle = cells[idx] === Cell.Dead
+      ctx.fillStyle = cells[idx] === 0
         ? DEAD_COLOR
         : ALIVE_COLOR;
 

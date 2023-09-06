@@ -1,11 +1,9 @@
 pub mod utils {
     use wasm_bindgen::prelude::*;
     #[wasm_bindgen]
-    #[repr(u8)]
-    #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-    pub enum Cell {
-        Dead = 0,
-        Alive = 1,
+    #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
+    pub struct Cell {
+        value: f64,
     }
     #[wasm_bindgen]
     pub struct Universe {
@@ -13,6 +11,7 @@ pub mod utils {
         height: u32,
         cells: Vec<Cell>,
     }
+
     #[wasm_bindgen]
     impl Universe {
         pub fn tick(&mut self) {
@@ -21,18 +20,9 @@ pub mod utils {
             for row in 0..self.height {
                 for col in 0..self.width {
                     let idx = self.get_index(row, col);
-                    let cell = self.cells[idx];
-                    let live_neighbors = self.live_neighbor_count(row, col);
+                    let next_cell: f64 = self.determine_next_state(row, col);
 
-                    let next_cell = match (cell, live_neighbors) {
-                        (Cell::Alive, x) if x < 2 => Cell::Dead,
-                        (Cell::Alive, 2) | (Cell::Alive, 3) => Cell::Alive,
-                        (Cell::Alive, x) if x > 3 => Cell::Dead,
-                        (Cell::Dead, 3) => Cell::Alive,
-                        (otherwise, _) => otherwise,
-                    };
-
-                    next[idx] = next_cell;
+                    next[idx].value = next_cell;
                 }
             }
             self.cells = next;
@@ -40,16 +30,10 @@ pub mod utils {
         pub fn new() -> Universe {
             let width = 64;
             let height = 64;
-
-            let cells = (0..width * height)
-                .map(|i| {
-                    if i % 2 == 0 || i % 7 == 0 {
-                        Cell::Dead
-                    } else {
-                        Cell::Dead
-                    }
-                })
-                .collect();
+            let mut cells: Vec<Cell> = Vec::new();
+            for _ind in 0..(width * height) {
+                cells.push(Cell { value: 0.0 });
+            }
 
             Universe {
                 width,
@@ -81,8 +65,9 @@ pub mod utils {
         fn get_index(&self, row: u32, column: u32) -> usize {
             (row * self.width + column) as usize
         }
-        fn live_neighbor_count(&self, row: u32, column: u32) -> u8 {
-            let mut count = 0;
+        fn determine_next_state(&self, row: u32, column: u32) -> f64 {
+            let mut cell_state: f64 = 0.0;
+            let mut cell_count: i32 = 0;
             for delta_row in [self.height - 1, 0, 1].iter().cloned() {
                 for delta_col in [self.width - 1, 0, 1].iter().cloned() {
                     if delta_row == 0 && delta_col == 0 {
@@ -92,19 +77,22 @@ pub mod utils {
                     let neighbor_row = (row + delta_row) % self.height;
                     let neighbor_col = (column + delta_col) % self.width;
                     let idx = self.get_index(neighbor_row, neighbor_col);
-                    count += self.cells[idx] as u8;
+                    cell_state += self.cells[idx].value as f64;
+                    cell_count += 1;
                 }
             }
-            count
+            let new_state = cell_state / (cell_count as f64);
+            new_state.ceil()
         }
     }
 
     impl Cell {
         fn toggle(&mut self) {
-            *self = match *self {
-                Cell::Dead => Cell::Alive,
-                Cell::Alive => Cell::Dead,
-            };
+            if self.value < 1.0 {
+                self.value = 1.0;
+            } else {
+                self.value = 0.0;
+            }
         }
     }
 
@@ -113,7 +101,7 @@ pub mod utils {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
             for line in self.cells.as_slice().chunks(self.width as usize) {
                 for &cell in line {
-                    let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
+                    let symbol = if cell.value < 1.0 { '◻' } else { '◼' };
                     write!(f, "{}", symbol)?;
                 }
                 write!(f, "\n")?;
