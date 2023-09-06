@@ -20,9 +20,9 @@ pub mod utils {
             for row in 0..self.height {
                 for col in 0..self.width {
                     let idx = self.get_index(row, col);
-                    let next_cell: f64 = self.determine_next_state(row, col);
+                    let next_cell_state: f64 = self.determine_next_state(row, col);
 
-                    next[idx].value = next_cell;
+                    next[idx].value = next_cell_state;
                 }
             }
             self.cells = next;
@@ -66,7 +66,8 @@ pub mod utils {
             (row * self.width + column) as usize
         }
         fn determine_next_state(&self, row: u32, column: u32) -> f64 {
-            let mut cell_state: f64 = 0.0;
+            let idx_cell = self.get_index(row, column);
+            let mut cell_state: f64 = self.cells[idx_cell].value;
             let mut cell_count: i32 = 0;
             for delta_row in [self.height - 1, 0, 1].iter().cloned() {
                 for delta_col in [self.width - 1, 0, 1].iter().cloned() {
@@ -77,7 +78,7 @@ pub mod utils {
                     let neighbor_row = (row + delta_row) % self.height;
                     let neighbor_col = (column + delta_col) % self.width;
                     let idx = self.get_index(neighbor_row, neighbor_col);
-                    cell_state += self.cells[idx].value as f64;
+                    cell_state += self.cells[idx].value;
                     cell_count += 1;
                 }
             }
