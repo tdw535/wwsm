@@ -2,7 +2,7 @@
 import { Universe, Cell } from "compute-engine";
 import { memory } from "compute-engine/compute_engine_bg";
 
-const CELL_SIZE = 5; // px
+const CELL_SIZE = 10; // px
 const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
@@ -10,7 +10,7 @@ const ALIVE_COLOR = "#000000";
 const epsilon = 1e-8;
 
 // Construct the universe, and get its width and height.
-const universe = Universe.new(64, 64);
+const universe = Universe.new(160, 160);
 const width = universe.width();
 const height = universe.height();
 
@@ -60,7 +60,6 @@ canvas.addEventListener("click", event => {
   const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
   const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
 
-  console.log("row, col toggled", row, col);
   universe.toggle_cell(row, col);
 
   drawGrid();
@@ -103,8 +102,10 @@ const getIndex = (row, column) => {
 };
 
 const drawCells = () => {
+
   const cellsPtr = universe.cells_accessible();
   const cells = new Float64Array(memory.buffer, cellsPtr, width * height);
+
 
   ctx.beginPath();
 
@@ -112,6 +113,10 @@ const drawCells = () => {
     for (let col = 0; col < width; col++) {
 
       const idx = getIndex(row, col);
+      if (row === 0 && col === 0) {
+        console.log("row, col toggled", row, col, cells[idx], idx);
+      }
+
       ctx.fillStyle = cells[idx] > epsilon
         ? ALIVE_COLOR
         : DEAD_COLOR;

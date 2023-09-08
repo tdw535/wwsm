@@ -10,6 +10,7 @@ pub mod utils {
         width: u32,
         height: u32,
         cells: Vec<Cell>,
+        cells_accessible: Vec<f64>,
     }
 
     #[wasm_bindgen]
@@ -29,14 +30,18 @@ pub mod utils {
         }
         pub fn new(width: u32, height: u32) -> Universe {
             let mut cells: Vec<Cell> = Vec::new();
+            let mut cells_accessible: Vec<f64> = Vec::new();
+
             for _ind in 0..(width * height) {
                 cells.push(Cell { value: 0.0 });
+                cells_accessible.push(0.0);
             }
 
             Universe {
                 width,
                 height,
                 cells,
+                cells_accessible,
             }
         }
 
@@ -50,12 +55,11 @@ pub mod utils {
         pub fn height(&self) -> u32 {
             self.height
         }
-        pub fn cells_accessible(&self) -> *const f64 {
-            let mut cells_accessible: Vec<f64> = Vec::new();
+        pub fn cells_accessible(&mut self) -> *const f64 {
             for idx in 0..(self.height * self.width) {
-                cells_accessible.push(self.cells[idx as usize].value);
+                self.cells_accessible[idx as usize] = self.cells[idx as usize].value;
             }
-            cells_accessible.as_ptr()
+            self.cells_accessible.as_ptr()
         }
         pub fn toggle_cell(&mut self, row: u32, column: u32) {
             let idx = self.get_index(row, column);
@@ -74,7 +78,7 @@ pub mod utils {
             for delta_row in [self.height - 1, 0, 1].iter().cloned() {
                 for delta_col in [self.width - 1, 0, 1].iter().cloned() {
                     if delta_row == 0 && delta_col == 0 {
-                        cell_count +=1
+                        cell_count += 1;
                         continue;
                     }
 
@@ -128,7 +132,7 @@ pub mod utils {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
             for line in self.cells.as_slice().chunks(self.width as usize) {
                 for &cell in line {
-                    let symbol = if cell.value < 1.0 { '◻' } else { '◼' };
+                    let symbol = if cell.value > 0.0 { '◻' } else { '◼' };
                     write!(f, "{}", symbol)?;
                 }
                 write!(f, "\n")?;
@@ -141,25 +145,47 @@ pub mod utils {
 #[cfg(test)]
 mod tests {
     use super::utils::*;
-    #[test]
-    fn test_update() {
-        let mut universe = Universe::new(5, 5);
-        universe.set_cells(&[(2, 2)]);
-        universe.evolve();
+    // #[test]
+    // fn test_update() {
+    //     let mut universe = Universe::new(5, 5);
+    //     universe.set_cells(&[(2, 2)]);
+    //     universe.evolve();
 
-        let mut universe_expected = Universe::new(5, 5);
-        universe_expected.set_cells(&[
-            (1, 1),
-            (1, 2),
-            (1, 3),
-            (2, 1),
-            (2, 2),
-            (2, 3),
-            (3, 1),
-            (3, 2),
-            (3, 3),
-        ]);
-        let is_equal = universe.is_equivalent(universe_expected);
-        println!("They are equal {}", is_equal);
+    //     let mut universe_expected = Universe::new(5, 5);
+    //     universe_expected.set_cells(&[
+    //         (1, 1),
+    //         (1, 2),
+    //         (1, 3),
+    //         (2, 1),
+    //         (2, 2),
+    //         (2, 3),
+    //         (3, 1),
+    //         (3, 2),
+    //         (3, 3),
+    //     ]);
+    //     let is_equal = universe.is_equivalent(universe_expected);
+    //     println!("They are equal {}", is_equal);
+    // }
+    #[test]
+    fn test_update2() {
+        let mut universe = Universe::new(5, 5);
+        universe.set_cells(&[(3, 3)]);
+        print!("{}", universe);
+        print!("\n");
+        universe.evolve();
+        print!("{}", universe);
+        print!("\n");
+        universe.evolve();
+        print!("{}", universe);
+        print!("\n");
+        universe.evolve();
+        print!("{}", universe);
+        print!("\n");
+        universe.evolve();
+        print!("{}", universe);
+        print!("\n");
+        universe.evolve();
+        print!("{}", universe);
+        print!("\n");
     }
 }
