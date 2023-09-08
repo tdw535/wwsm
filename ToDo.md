@@ -7,6 +7,7 @@
 [x] Basic WASM w/Game of life
 [x] Interactivity with buttons
 - Figure out logic error of why columns are generated but not rows
+[x] Added unit test
 - Change logic
 - Understand debugging
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)

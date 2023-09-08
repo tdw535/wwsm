@@ -7,9 +7,10 @@ const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
 
+const epsilon = 1e-8;
 
 // Construct the universe, and get its width and height.
-const universe = Universe.new();
+const universe = Universe.new(64, 64);
 const width = universe.width();
 const height = universe.height();
 
@@ -59,6 +60,7 @@ canvas.addEventListener("click", event => {
   const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
   const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
 
+  console.log("row, col toggled", row, col);
   universe.toggle_cell(row, col);
 
   drawGrid();
@@ -73,7 +75,8 @@ const renderLoop = () => {
   drawGrid();
   drawCells();
 
-  universe.tick();
+  universe.evolve();
+
 
   animationId = requestAnimationFrame(renderLoop);
 };
@@ -100,18 +103,18 @@ const getIndex = (row, column) => {
 };
 
 const drawCells = () => {
-  const cellsPtr = universe.cells();
-  const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
+  const cellsPtr = universe.cells_accessible();
+  const cells = new Float64Array(memory.buffer, cellsPtr, width * height);
 
   ctx.beginPath();
 
   for (let row = 0; row < height; row++) {
     for (let col = 0; col < width; col++) {
-      const idx = getIndex(row, col);
 
-      ctx.fillStyle = cells[idx] === 0
-        ? DEAD_COLOR
-        : ALIVE_COLOR;
+      const idx = getIndex(row, col);
+      ctx.fillStyle = cells[idx] > epsilon
+        ? ALIVE_COLOR
+        : DEAD_COLOR;
 
       ctx.fillRect(
         col * (CELL_SIZE + 1) + 1,
