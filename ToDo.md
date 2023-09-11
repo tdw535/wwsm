@@ -1,5 +1,3 @@
-- Figure out Bindings for Rust WASM
-- Get CMake structure going
 - Figure out animation
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing
@@ -10,6 +8,9 @@
 [x] Added unit test
 - Change logic
 - Understand debugging
+[x] Start simple serve to be able to pass simple data
+- Setup some dummy data in a simple data file, so that webpage can obtain the info
+(e.g. top score stats)
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)
 
 Day 4: [Work on Testing game of life](https://rustwasm.github.io/docs/book/game-of-life/testing.html#testing-conways-game-of-life)

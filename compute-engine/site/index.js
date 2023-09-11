@@ -2,15 +2,18 @@
 import { Universe, Cell } from "compute-engine";
 import { memory } from "compute-engine/compute_engine_bg";
 
-const CELL_SIZE = 10; // px
+
+
+
+const CELL_SIZE = 5; // px
 const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
 
-const epsilon = 1e-8;
+const epsilon = 1e-3;
 
 // Construct the universe, and get its width and height.
-const universe = Universe.new(160, 160);
+const universe = Universe.new(60, 60);
 const width = universe.width();
 const height = universe.height();
 
@@ -40,11 +43,17 @@ const isPaused = () => {
   return animationId === null;
 };
 
-playPauseButton.addEventListener("click", event => {
+playPauseButton.addEventListener("click", async () => {
   if (isPaused()) {
     play();
   } else {
     pause();
+  }
+  try {
+    const response = await fetch("http://localhost:5054/api", { method: 'GET' });
+    console.log(response.text());
+  } catch (error) {
+    console.error('Error');
   }
 });
 
