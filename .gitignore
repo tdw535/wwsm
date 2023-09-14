@@ -8,3 +8,4 @@ compute-engine/site/node_modules/*
 hello-wasm/target/*
 hello-wasm/site/node_modules/*
 
+backend/db
