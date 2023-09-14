@@ -28,3 +28,8 @@ Run
 https://github.com/webpack/webpack/issues/14532
 export NODE_OPTIONS=--openssl-legacy-provider
 
+
+UI/Visuals: JS/(Rust --> WASM)
+Backend: Python (Flask + sqlAlchemy)
+
+

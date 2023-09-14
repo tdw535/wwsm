@@ -10,6 +10,7 @@
 - Understand debugging
 [x] Start simple serve to be able to pass simple data
 - Setup some dummy data in a simple data file, so that webpage can obtain the info
+- - figure out basic sqlAlchemy using sqlite
 (e.g. top score stats)
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)
 
