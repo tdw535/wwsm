@@ -3,52 +3,41 @@ import sqlalchemy as db
 from sqlalchemy import create_engine, insert
 from sqlalchemy import Table, Column, Integer, String, Double
 
-
-db_name = 'score_board.db'
-engine = db.create_engine('sqlite:///db//'+db_name,echo=True)
-connection = engine.connect()
-
-# metadata_obj = MetaData()
-
-# data_table = Table(
-#   "score_board",
-#   metadata_obj,
-#   Column("id",Integer,primary_key=True),
-#   Column("user_name", String(30)),
-#   Column("score", Double),
-# )
+import json
 
 
-# def CreateDB():
 
-#   metadata_obj.create_all(engine)
 
-metadata = db.MetaData()
-metadata.reflect(bind=engine)
-scoreBoard = metadata.tables["score_board"]
-print(scoreBoard.columns.keys())
-# query = db.select([scoreBoard]) 
-# ResultProxy = connection.execute(query)
-# ResultSet = ResultProxy.fetchall()
-# print(ResultProxy)
+class ScoreBoard:
+  def __init__(self):
+    self.db_name = 'score_board.db'
+    self.engine = db.create_engine('sqlite:///db//'+self.db_name,echo=True)
+    self.connection = self.engine.connect()
 
-def InsertEntry(name, score):
-  stmt = insert(DATA_TABLE).values(user_name=name,score=score)
-  compiled = stmt.compile()
-  with engine.connect() as conn:
-    result = conn.execute(stmt)
-    conn.commit()
+    self.metadata = db.MetaData()
+    self.metadata.reflect(bind=self.engine)
+    self.scoreBoard = self.metadata.tables["score_board"]
 
-def InspectEntries():
-  query = db.select(
-    scoreBoard.columns["id","user_name", "score"])
-  with engine.connect() as conn:
-    result = conn.execute(query).fetchall()
-    print(result)
+
+  def InsertEntry(self, name, score):
+    stmt = insert(scoreBoard).values(user_name=name,score=score)
+    compiled = stmt.compile()
+    with self.engine.connect() as conn:
+      result = conn.execute(stmt)
+      conn.commit()
+
+  def GetAllEntries(self):
+    query = db.select(
+      self.scoreBoard.columns["id","user_name", "score"])
+    with self.engine.connect() as conn:
+      result = conn.execute(query).fetchall()
+      return result
+  def GetAllEntriesAsJson(self):
+    results = [tuple(row) for row in results]
+    jsonString = json.dumps(results)
+    return jsonString
 
 if __name__ =='__main__':
-  # CreateDB()
-  # InsertEntry("BeepBoop",1.0)
-  # InsertEntry("BeepBoop",2.0)
-  InspectEntries()
-  print("Done")
+  score_board = ScoreBoard()
+  entries = score_board.GetAllEntries()
+  print(entries)

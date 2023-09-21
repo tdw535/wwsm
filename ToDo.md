@@ -12,7 +12,8 @@
 - Setup some dummy data in a simple data file, so that webpage can obtain the info
 - - figure out basic sqlAlchemy using sqlite
 - [x] Got basic query working
-- - clean up table creation, insertion, and querying code
+- [D] clean up table creation, insertion, and querying code
+- [ ] Figure out CORS issue to get communication working with page
 (e.g. top score stats)
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)
 

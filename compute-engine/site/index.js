@@ -50,7 +50,7 @@ playPauseButton.addEventListener("click", async () => {
     pause();
   }
   try {
-    const response = await fetch("http://localhost:5054/api", { method: 'GET' });
+    const response = await fetch("http://localhost:5054/api/score_board", { method: 'GET' });
     console.log(response.text());
   } catch (error) {
     console.error('Error');
