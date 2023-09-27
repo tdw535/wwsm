@@ -33,6 +33,7 @@ class ScoreBoard:
       result = conn.execute(query).fetchall()
       return result
   def GetAllEntriesAsJson(self):
+    results = self.GetAllEntries()
     results = [tuple(row) for row in results]
     jsonString = json.dumps(results)
     return jsonString

@@ -4,7 +4,7 @@ from flask_cors import CORS
 import ScoreHandler as ScoreHandler
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
 
 
 
@@ -13,12 +13,12 @@ class InfoServer:
     self.score_board = ScoreHandler.ScoreBoard()
   def getScores(self):
     entries = self.score_board.GetAllEntriesAsJson()
+    print(entries)
     return entries
 
 infoServer = InfoServer()
 
-
-@app.route("/api/score_board/")
+@app.route("/")
 def get_scoreboard():
     return infoServer.getScores()
 
@@ -32,4 +32,4 @@ def after_request(response):
 
 
 if __name__ =='__main__':
-  app.run(host="localhost",port=5054,debug=True)
+  app.run(host="localhost",port=5057,debug=True)

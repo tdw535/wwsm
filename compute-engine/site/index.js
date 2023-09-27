@@ -27,6 +27,12 @@ const ctx = canvas.getContext('2d');
 let animationId = null;
 
 const playPauseButton = document.getElementById("play-pause");
+const nextPageButton = document.getElementById("next-page");
+
+nextPageButton.textContent = "Next Page";
+nextPageButton.addEventListener("click", async () => {
+  location.href = 'scorePage.html';
+});
 
 const play = () => {
   playPauseButton.textContent = "⏸";
@@ -48,12 +54,6 @@ playPauseButton.addEventListener("click", async () => {
     play();
   } else {
     pause();
-  }
-  try {
-    const response = await fetch("http://localhost:5054/api/score_board", { method: 'GET' });
-    console.log(response.text());
-  } catch (error) {
-    console.error('Error');
   }
 });
 
