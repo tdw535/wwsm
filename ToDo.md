@@ -15,8 +15,7 @@
 - [D] clean up table creation, insertion, and querying code
 - [ ] Figure out CORS issue to get communication working with page
 (e.g. top score stats) [Seems like a resource issue]
-- [ ] Figure out why we're not getting any values from the array of tuples
-- [ ] Figure out bug for why generateTable function doesn't get value
+- [Low Priority] Figure out how to make table so that the same table doesn't get constantly generated 
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)
 
 Day 4: [Work on Testing game of life](https://rustwasm.github.io/docs/book/game-of-life/testing.html#testing-conways-game-of-life)
