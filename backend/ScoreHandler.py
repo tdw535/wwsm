@@ -28,13 +28,17 @@ class ScoreBoard:
 
   def GetAllEntries(self):
     query = db.select(
-      self.scoreBoard.columns["id","user_name", "score"])
+      self.scoreBoard.columns["user_name", "score"])
     with self.engine.connect() as conn:
       result = conn.execute(query).fetchall()
-      return result
+      resultKeys = conn.execute(query).keys()   
+      return resultKeys, result
   def GetAllEntriesAsJson(self):
-    results = self.GetAllEntries()
-    results = [tuple(row) for row in results]
+    colNames, rows = self.GetAllEntries()
+    results = []
+    for row in rows:
+      row = dict(zip(colNames, row))
+      results.append(row)
     jsonString = json.dumps(results)
     return jsonString
 

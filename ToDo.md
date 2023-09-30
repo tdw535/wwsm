@@ -15,7 +15,10 @@
 - [D] clean up table creation, insertion, and querying code
 - [ ] Figure out CORS issue to get communication working with page
 (e.g. top score stats) [Seems like a resource issue]
-- [Low Priority] Figure out how to make table so that the same table doesn't get constantly generated 
+- [x] Figure out how to make table so that the same table doesn't get constantly generated 
+- [ ] Figure out "Debug mode" for JS, Python
+- [ ] Clean up ScoreHandler 
+- [ ] Add functionality to add new user name and score
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)
 
 Day 4: [Work on Testing game of life](https://rustwasm.github.io/docs/book/game-of-life/testing.html#testing-conways-game-of-life)
