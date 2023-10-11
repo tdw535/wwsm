@@ -10,3 +10,7 @@ hello-wasm/site/node_modules/*
 
 backend/db
 backend/__pycache__/*
+
+
+math-utils/pkg/*
+math-utils/target/*

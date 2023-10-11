@@ -1,18 +1,9 @@
 [package]
-name = "compute-engine"
+name = "math-utils"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[lib]
-crate-type=["cdylib"]
-
 [dependencies]
-wasm-bindgen = "0.2.39"
-
-[profile.dev]
-opt-level = 0
-
-[profile.release]
-opt-level = 3
+rustfft = "6.1.0"

@@ -4,7 +4,6 @@
 - Figure out directory structure
 [x] Basic WASM w/Game of life
 [x] Interactivity with buttons
-- Figure out logic error of why columns are generated but not rows
 [x] Added unit test
 - Change logic
 - Understand debugging
@@ -19,6 +18,11 @@
 - [ ] Figure out "Debug mode" for JS, Python
 - [ ] Clean up ScoreHandler 
 - [ ] Add functionality to add new user name and score
+- [ ] Convert float to greyscale in index.html
+- [ ] Figure out Rust test error
+- [ ] Get simple sine test working
+- [ ] Work on a simple 2D/3D fft
+- [ ] Create a grid object
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)
 
 Day 4: [Work on Testing game of life](https://rustwasm.github.io/docs/book/game-of-life/testing.html#testing-conways-game-of-life)
