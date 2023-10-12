@@ -23,6 +23,7 @@
 - [ ] Get simple sine test working
 - [ ] Work on a simple 2D/3D fft
 - [ ] Create a grid object
+- [ ] Want a better way to handle parameters (param files)
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)
 
 Day 4: [Work on Testing game of life](https://rustwasm.github.io/docs/book/game-of-life/testing.html#testing-conways-game-of-life)
