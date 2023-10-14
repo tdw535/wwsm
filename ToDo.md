@@ -1,4 +1,5 @@
 - Figure out animation
+- [ ] Fix issue with init_vec; and using real only vs complex + real
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing
 - Figure out directory structure
@@ -24,6 +25,8 @@
 - [ ] Work on a simple 2D/3D fft
 - [ ] Create a grid object
 - [ ] Want a better way to handle parameters (param files)
+- [ ] Projections/Simulations on a sphere (?)
+- [ ] Project text onto book page
 - [Time profiling](https://rustwasm.github.io/docs/book/game-of-life/time-profiling.html)
 
 Day 4: [Work on Testing game of life](https://rustwasm.github.io/docs/book/game-of-life/testing.html#testing-conways-game-of-life)
