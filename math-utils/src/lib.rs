@@ -35,11 +35,11 @@ pub mod math_utils {
         }
     }
 
-    pub fn init_vec(vec: &mut Vec<f64>, width: f64, num_points: usize, f: &dyn Fn(f64) -> f64) {
+    pub fn init_vec(vec: &mut Vec<Complex<f64>>, width: f64, num_points: usize, f: &dyn Fn(f64) -> f64) {
 
         let delta:f64 = (2.0*_PI)/(width*((num_points) as f64));
         for ii in 0..num_points {
-            let grid_value = f(delta* (ii as f64));
+            let grid_value = Complex::new(f(delta* (ii as f64)),0.0);
             vec.push(grid_value);
         }
     }
@@ -82,7 +82,10 @@ mod tests {
        }        
        assert_eq!(v[midway].re,1.0);
 
+
        let fft_manager = FFTManager::new(vec_size);
        fft_manager.fft_forward(&mut v);
+       println!("\nafter fft");
+       println!("{:?}", v);
     }
 }

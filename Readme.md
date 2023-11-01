@@ -33,3 +33,6 @@ UI/Visuals: JS/(Rust --> WASM)
 Backend: Python (Flask + sqlAlchemy)
 
 
+Rust helpful hints:
+- Print:
+cargo test -- --nocapture
