@@ -20,6 +20,7 @@ pub mod math_utils {
         num_points: usize,
         fft_planner: FftPlanner<f64>,
         plan_forward:  Arc<dyn Fft<f64>>,
+        plan_inverse: Arc<dyn Fft<f64>>
         // buffer: vec![Complex{re: 0.0f32, im: 0.0f32}; 1234];
     }
 
@@ -27,12 +28,29 @@ pub mod math_utils {
         pub fn new(num_points: usize) -> FFTManager {
             let mut fft_planner = FftPlanner::new();
             let plan_forward = fft_planner.plan_fft_forward(num_points);
-            FFTManager{num_points, fft_planner, plan_forward}
+            let plan_inverse = fft_planner.plan_fft_inverse(num_points);            
+            FFTManager{num_points, fft_planner, plan_forward, plan_inverse}
         }
         pub fn fft_forward(&self,buffer: &mut Vec<Complex<f64>>) -> bool {
             self.plan_forward.process(buffer);
             true
         }
+        pub fn fft_inverse(&self,buffer: &mut Vec<Complex<f64>>) -> bool {
+            self.plan_inverse.process(buffer);
+            true
+        }
+        pub fn fft_normalized_inverse(&self,buffer: &mut Vec<Complex<f64>>) -> bool {
+            self.plan_inverse.process(buffer);
+            self.fft_normalize(buffer);
+            true
+        }        
+        fn fft_normalize(&self, buffer: &mut Vec<Complex<f64>>) {
+            let norm_factor = 1.0/buffer.len() as f64;
+            println!("\n normfactor {:?}", norm_factor);   
+            for entry in buffer.iter_mut() {
+                *entry *= norm_factor;
+            }
+        }        
     }
 
     pub fn init_vec(vec: &mut Vec<Complex<f64>>, width: f64, num_points: usize, f: &dyn Fn(f64) -> f64) {
@@ -72,7 +90,10 @@ mod tests {
         let width = 1.0;
         let vec_size: usize = 32;
         let mut v: Vec<Complex<f64>> = Vec::new();
+        let mut v2: Vec<Complex<f64>> = Vec::new();
         init_vec(&mut v,width,vec_size, &f64::sin);
+        init_vec(&mut v2,width,vec_size, &f64::sin);
+
         assert_eq!(v[0].re,0.0);
         let midway = (vec_size/4) as usize;
         
@@ -87,5 +108,9 @@ mod tests {
        fft_manager.fft_forward(&mut v);
        println!("\nafter fft");
        println!("{:?}", v);
+
+       fft_manager.fft_normalized_inverse(&mut v);
+       println!("\nafter fft");
+       println!("{:?}", v);       
     }
 }
