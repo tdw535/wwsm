@@ -21,6 +21,9 @@
 - [ ] Add functionality to add new user name and score
 - [ ] Convert float to greyscale in index.html
 - [ ] Work on a simple 2D/3D fft https://docs.rs/fft2d/latest/fft2d/slice/fn.fft_2d.html
+- - [ ] Figure out how to use vector slices with FFT
+- - [ ] Figure out how to use fast transpose with FFT
+- - [ ] Figure out how to do Parallel FFT
 - [ ] Create a grid object
 - [ ] Want a better way to handle parameters (param files)
 - [ ] Projections/Simulations on a sphere (?)
