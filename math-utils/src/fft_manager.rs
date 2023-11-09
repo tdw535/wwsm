@@ -1,6 +1,7 @@
 
 
 pub mod math_utils {
+    mod constants;
 
     use rustfft::{FftPlanner, num_complex::Complex};
     use rustfft::Fft;
@@ -9,7 +10,7 @@ pub mod math_utils {
 
     // Perform a forward FFT of size 1234
 
-    const _PI:f64 =   std::f64::consts::PI;
+
 
 
 
