@@ -1,5 +1,6 @@
 
 use crate::utils::constants::*;
+use crate::utils::array_tools;
 use crate::utils::fft_manager::*;
 
 
@@ -15,8 +16,8 @@ pub struct FFT2DManager {
 }
 impl FFT2DManager {
   pub fn new(dim_1: usize, dim_2: usize) -> FFT2DManager {
-    let mut manager_1 = FFTManager::new(dim_1);
-    let mut manager_2 = FFTManager::new(dim_2);          
+    let manager_1 = FFTManager::new(dim_1);
+    let manager_2 = FFTManager::new(dim_2);          
     FFT2DManager{dim_1, dim_2, manager_1, manager_2}      
   }
   
@@ -24,9 +25,16 @@ impl FFT2DManager {
     // Apply forward on each vector slice (in parrallel and then same for transpose)
     // self.plan_forward.process(buffer);
     
-    for row in 0..self.dim_2 {
-      self.manager_1.fft_forward(&mut buffer[row*self.dim_1..(row+1)*self.dim_1]);
+    for row in 0..self.dim_1 {
+      self.manager_1.fft_forward(&mut buffer[row*self.dim_2..(row+1)*self.dim_2]);
     }
+    array_tools::tranpose_2d(buffer, self.dim_1, self.dim_2);
+
+    for col in 0..self.dim_2 {
+      self.manager_1.fft_forward(&mut buffer[col*self.dim_1..(col+1)*self.dim_1]);
+    }    
+    array_tools::tranpose_2d(buffer, self.dim_1, self.dim_2);
+
     false
   }
 }
@@ -35,7 +43,7 @@ pub fn init_vec(vec: &mut Vec<Complex<f64>>, width_x: f64, width_y: f64, nx: usi
 
   let dx:f64 = (2.0*_PI)/(width_x*((nx) as f64));
   let dy:f64 = (2.0*_PI)/(width_y*((ny) as f64));
-  for jj in 0..ny {
+  for _jj in 0..ny {
     for ii in 0..nx {
       let grid_value = Complex::new(f(dx* (ii as f64)),0.0);
       vec.push(grid_value);

@@ -23,7 +23,9 @@
 - [ ] Work on a simple 2D/3D fft https://docs.rs/fft2d/latest/fft2d/slice/fn.fft_2d.html
 - - [x] Figure out crates/modules for importing constants
 - - [ ] Figure out how to use vector slices with FFT
-- - - [ ] Get tranpose of 2d matrix working (careful with change in dimension)
+- - - [x] Get tranpose of 2d matrix working
+- - - [x] Figure out how to templetize transpose
+- - - [ ] Write unit test for 2d FFT forward
 - - [ ] Figure out how to use fast transpose with FFT
 - - [ ] Figure out how to do Parallel FFT
 - [ ] Create a grid object

@@ -9,6 +9,10 @@ pub fn return_pi() -> f64 {
   _PI
 }
 
+pub fn mod_val(input: &mut i64) {
+  *input = 2* (*input);
+}
+
 
 #[cfg(test)]
 mod tests {
@@ -21,6 +25,12 @@ mod tests {
     assert_eq!(val < 0.1, true);
 
     assert_eq!(2, _BEST_NUMBER);
+  }
+  #[test]
+  fn test_input() {
+    let mut first_val: i64 = 5;
+    mod_val(&mut first_val);
+    assert_eq!(first_val, 10);
   }
 }
 
