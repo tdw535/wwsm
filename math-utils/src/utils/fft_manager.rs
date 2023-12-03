@@ -39,13 +39,12 @@ impl FFTManager {
         true
     }
     pub fn fft_normalized_inverse(&self,buffer: &mut [Complex<f64>]) -> bool {
-        self.plan_inverse.process(buffer);
+        self.fft_inverse(buffer);
         self.fft_normalize(buffer);
         true
     }        
     fn fft_normalize(&self, buffer: &mut [Complex<f64>]) {
         let norm_factor = 1.0/buffer.len() as f64;
-        println!("\n normfactor {:?}", norm_factor);   
         for entry in buffer.iter_mut() {
             *entry *= norm_factor;
         }

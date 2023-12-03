@@ -25,7 +25,8 @@
 - - [ ] Figure out how to use vector slices with FFT
 - - - [x] Get tranpose of 2d matrix working
 - - - [x] Figure out how to templetize transpose
-- - - [ ] Write unit test for 2d FFT forward
+- - - [x] Write unit test for 2d FFT forward
+- - - [ ] Clean up 2D matrix access so that we can use get_grid(x,y) instead of the other (maybe macro or inline?)
 - - [ ] Figure out how to use fast transpose with FFT
 - - [ ] Figure out how to do Parallel FFT
 - [ ] Create a grid object

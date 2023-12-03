@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 rustfft = "6.1.0"
+more-asserts = "0.3.1"
