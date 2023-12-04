@@ -27,6 +27,7 @@
 - - - [x] Figure out how to templetize transpose
 - - - [x] Write unit test for 2d FFT forward
 - - - [ ] Clean up 2D matrix access so that we can use get_grid(x,y) instead of the other (maybe macro or inline?)
+- - - - [ ] Figure out indexing so vec_2d[a,b] works; vec_2d[a,b] = 1; and r = vec_2d[a,b]
 - - [ ] Figure out how to use fast transpose with FFT
 - - [ ] Figure out how to do Parallel FFT
 - [ ] Create a grid object

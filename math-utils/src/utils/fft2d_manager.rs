@@ -4,7 +4,6 @@ use crate::utils::array_tools;
 use crate::utils::fft_manager::*;
 
 
-
 use rustfft::{num_complex::Complex};
 
 
