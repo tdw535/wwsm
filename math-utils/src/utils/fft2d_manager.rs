@@ -1,6 +1,6 @@
 
 use crate::utils::constants::*;
-use crate::utils::array_tools;
+use crate::utils::array_tools::*;
 use crate::utils::fft_manager::*;
 
 
@@ -20,61 +20,59 @@ impl FFT2DManager {
     FFT2DManager{dim_1, dim_2, manager_1, manager_2}      
   }
   
-  pub fn fft2d_forward(&self,buffer: &mut Vec<Complex<f64>>) -> bool {
+  pub fn fft2d_forward(&self,buffer: &mut Vector2D<Complex<f64>>) -> bool {
     // Apply forward on each vector slice (in parrallel and then same for transpose)
     // self.plan_forward.process(buffer);
     
     for row in 0..self.dim_1 {
-      self.manager_2.fft_forward(&mut buffer[row*self.dim_2..(row+1)*self.dim_2]);
+      self.manager_2.fft_forward(&mut buffer.get_row(row));
     }
-    array_tools::tranpose_2d(buffer, self.dim_1, self.dim_2);
-
+    let mut buffer_tranposed = buffer.tranpose_2d();
     for col in 0..self.dim_2 {
-      self.manager_1.fft_forward(&mut buffer[col*self.dim_1..(col+1)*self.dim_1]);
+      self.manager_1.fft_forward(&mut buffer.get_row(col));
     }    
-    array_tools::tranpose_2d(buffer, self.dim_1, self.dim_2);
+    buffer = buffer_tranposed.tranpose_2d();
 
     true
   }
 
-  pub fn fft2d_inverse(&self,buffer: &mut Vec<Complex<f64>>) -> bool {
+  pub fn fft2d_inverse(&self,buffer: &mut Vector2D<Complex<f64>>) -> bool {
     // Apply forward on each vector slice (in parrallel and then same for transpose)
     // self.plan_forward.process(buffer);
     
     for row in 0..self.dim_1 {
-      self.manager_2.fft_inverse(&mut buffer[row*self.dim_2..(row+1)*self.dim_2]);
+      self.manager_2.fft_inverse(&mut buffer.get_row(row));
     }
-    array_tools::tranpose_2d(buffer, self.dim_1, self.dim_2);
-
+    let mut buffer_tranposed = buffer.tranpose_2d();
     for col in 0..self.dim_2 {
-      self.manager_1.fft_inverse(&mut buffer[col*self.dim_1..(col+1)*self.dim_1]);
+      self.manager_1.fft_inverse(&mut buffer.get_row(col));
     }    
-    array_tools::tranpose_2d(buffer, self.dim_1, self.dim_2);
+    buffer = buffer_tranposed.tranpose_2d();
 
     true
   }
 
-  pub fn fft2d_normalized_inverse(&self,buffer: &mut Vec<Complex<f64>>) -> bool {
+  pub fn fft2d_normalized_inverse(&self,buffer: &mut Vector2D<Complex<f64>>) -> bool {
     self.fft2d_inverse(buffer);
     self.fft2d_normalize(buffer);
     true
   }        
 
-  fn fft2d_normalize(&self, buffer: &mut Vec<Complex<f64>>) {
+  fn fft2d_normalize(&self, buffer: &mut Vector2D<Complex<f64>>) {
     let norm_factor = 1.0/buffer.len() as f64;
-    for entry in buffer.iter_mut() {
+    for entry in buffer.vec.iter_mut() {
         *entry *= norm_factor;
     }
   }        
 }
-pub fn init_vec(vec: &mut Vec<Complex<f64>>, width_x: f64, width_y: f64, nx: usize, ny: usize, f: &dyn Fn(f64) -> f64) {
+pub fn init_vec(v2d: &mut Vector2D<Complex<f64>>, width_x: f64, width_y: f64, nx: usize, ny: usize, f: &dyn Fn(f64) -> f64) {
 
   let dx:f64 = (2.0*_PI)/(width_x*((nx) as f64));
   let dy:f64 = (2.0*_PI)/(width_y*((ny) as f64));
   for ii in 0..nx {
     for jj in 0..ny {
       let grid_value = Complex::new(f(1.0*dy* (jj as f64)*dx* (ii as f64)),0.0);
-      vec.push(grid_value);
+      v2d.vec.push(grid_value);
     }
   }
 }
@@ -91,8 +89,8 @@ mod tests {
     let width = 1.0;
     let nx: usize = 5;
     let ny: usize = 5;
-    let mut v: Vec<Complex<f64>> = Vec::new();
-    let mut v2: Vec<Complex<f64>> = Vec::new();
+    let mut v: Vector2D<Complex<f64>> = Vector2D<Complex<f64>>::new(nx,ny);
+    let mut v2: Vec<Complex<f64>> = Vector2D<Complex<f64>>::new(nx,ny);
     fft2d_manager::init_vec(&mut v,width,width, nx,ny, &f64::cos);
     fft2d_manager::init_vec(&mut v2,width,width, nx,ny, &f64::cos);
 
@@ -105,8 +103,8 @@ mod tests {
 
     for row in 0..nx {
       for col in 0..ny {
-        let re_val = v[row*ny + col].re;
-        let im_val = v[row*ny + col].im;
+        let re_val = v[row][col].re;
+        let im_val = v[row][col].im;
         if im_val.abs() > 0.1 || re_val.abs() > 0.1 {
           println!("re:{0}, im:{1} ",re_val, im_val);
           println!("k:{0}, l:{1} ",row, col);
@@ -120,8 +118,8 @@ mod tests {
     print!("\n");
     for row in 0..nx {
       for col in 0..ny {
-        let re_val = v[row*ny + col].re;
-        let im_val = v[row*ny + col].im;
+        let re_val = v[row][col].re;
+        let im_val = v[row][col].im;
           print!("{} ", re_val);
       }
       print!("\n");
@@ -130,8 +128,8 @@ mod tests {
 
     for row in 0..nx {
       for col in 0..ny {
-        let val1 = v[row*ny + col];
-        let val2 = v2[row*ny + col];
+        let val1 = v[row][col];
+        let val2 = v2[row][col];
         let diff_real = (val1.re - val2.re).abs();
         let diff_im = (val1.im - val2.im).abs();
         print!("{} ", diff_real);

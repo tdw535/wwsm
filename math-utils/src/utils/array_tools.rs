@@ -1,6 +1,5 @@
 
-use std::ops::{Index, IndexMut};
-
+use std::fmt; // Import `fmt`
 pub struct Vector2D<T> {
   num_row: usize,
   num_col: usize,
@@ -9,11 +8,11 @@ pub struct Vector2D<T> {
 }
 
 
-impl<T: Default, Copy> Vector2D<T> {
+impl<T: Copy + Default> Vector2D<T> {
   pub fn new(num_row: usize, num_col: usize) -> Vector2D<T> {
     let vec_size: usize = num_row*num_col;
     let mut vec: Vec<T> = Vec::with_capacity(vec_size);
-    for ind in 0..vec_size {
+    for _ind in 0..vec_size {
       vec.push(Default::default());
     }
     Vector2D {num_row, num_col, vec_size, vec} 
@@ -25,16 +24,35 @@ impl<T: Default, Copy> Vector2D<T> {
 
   pub fn tranpose_2d (&self) -> Vector2D<T> {
     // Column and row dim need to be switched
-    let mut temp: Vector2D<T> =  Vector2D::<T>::new(self.num_col, self.num_row);
+    let mut tranposed: Vector2D<T> =  Vector2D::<T>::new(self.num_col, self.num_row);
       for row in 0..self.num_row {
         for col in 0..self.num_col {
-          temp.vec[self.num_row*col + row] = self.vec[self.num_col*row + col];
+          tranposed.vec[self.num_row*col + row] = self.vec[self.num_col*row + col];
         }
       }
-    temp
+      tranposed
   }
+
+  pub fn get_row(&mut self, row:usize) -> &mut [T] {
+    &mut self.vec[row*self.num_col..(row+1)*self.num_col]
+  }
+
 }
 
+impl<T: fmt::Display> fmt::Display for Vector2D<T> {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+      // Use `self.number` to refer to each positional data point.
+      let mut space_separated = String::new();
+      for row in 0..self.num_row {
+        for col in 0..self.num_col {
+          space_separated.push_str(&self[row][col].to_string());
+          space_separated.push_str(" ");
+        }
+        space_separated.push_str("\n");
+      }
+      write!(f,"{}",space_separated)
+  }
+}
 
 impl<T> std::ops::Index<usize> for Vector2D<T> {
   type Output = [T];
@@ -96,7 +114,7 @@ mod tests {
     let zero: Complex<f64> = Complex::new(0.0,0.0);
 
     let mut v: Vec<Complex<f64>> = Vec::with_capacity(6);
-    for ii in 0..upto {
+    for _ii in 0..upto {
       v.push(zero);
     }
     for el in &v {
@@ -111,7 +129,6 @@ mod tests {
   }
   #[test]
   fn test_vector2d() {
-    let default_value: i64 = 0;
     let nrow: usize = 2;
     let ncol: usize = 3;
     let mut vec_2d = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
@@ -123,7 +140,31 @@ mod tests {
     let vec_len = vec_2d.len();
     vec_2d[1][2] = Complex::new(1,2);
 
+
     assert_eq!(vec_len, nrow*ncol);
     assert_eq!(vec_2d[1][2], Complex::new(1,2));
+    let mut vec_t = vec_2d.tranpose_2d();
+    assert_eq!(vec_2d[1][2], vec_t[2][1]);
+    vec_t[2][1] = Complex::new(4,2);
+    assert_eq!(Complex::new(4,2), vec_t[2][1]);
+  }
+
+  #[test]
+  fn test_get_row() {
+    let nrow: usize = 2;
+    let ncol: usize = 3;
+    let mut vec_2d = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
+    vec_2d[0][0] = Complex::new(1,2);
+    vec_2d[1][0] = Complex::new(5,2);
+
+    let mut vec_row = vec_2d.get_row(1);
+    vec_row[1] = Complex::new(-1,-2);
+
+    let mut vec_row = vec_2d.get_row(0);
+    vec_row[2] = Complex::new(-7,-5);
+    
+    print!("{}", vec_2d);
+    assert_eq!(vec_2d[0][2],Complex::new(-7,-5));
+    assert_eq!(vec_2d[1][1],Complex::new(-1,-2));
   }
 }

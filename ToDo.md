@@ -28,8 +28,9 @@
 - - - [x] Write unit test for 2d FFT forward
 - - - [ ] Clean up 2D matrix access so that we can use get_grid(x,y) instead of the other (maybe macro or inline?)
 - - - - [x] Figure out indexing so vec_2d[a,b] works; vec_2d[a,b] = 1; and r = vec_2d[a,b]
-- - - - [ ] Rewrite so that transpose uses the new indexing
-- - - - [ ] Figure out copy trait
+- - - - [x] Rewrite so that transpose uses the new indexing
+- - - - [x] Figure out copy trait
+- - - - [ ] Override Add, scalar multiply, entry wise multiply
 - - [ ] Figure out how to use fast transpose with FFT
 - - [ ] Figure out how to do Parallel FFT
 - [ ] Create a grid object
