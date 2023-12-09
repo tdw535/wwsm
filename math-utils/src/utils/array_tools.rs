@@ -1,6 +1,6 @@
 
 use std::fmt; // Import `fmt`
-use core::ops::Add;
+
 pub struct Vector2D<T> {
   num_row: usize,
   num_col: usize,
@@ -9,7 +9,7 @@ pub struct Vector2D<T> {
 }
 
 
-impl<T: Add + Copy + Default> Vector2D<T> {
+impl<T: Copy + Default> Vector2D<T> {
   pub fn new(num_row: usize, num_col: usize) -> Vector2D<T> {
     let vec_size: usize = num_row*num_col;
     let mut vec: Vec<T> = Vec::with_capacity(vec_size);
@@ -23,7 +23,7 @@ impl<T: Add + Copy + Default> Vector2D<T> {
     self.vec_size
   }  
 
-  pub fn tranpose_2d (&self) -> Vector2D<T> {
+  pub fn tranpose_2d (&self) ->  Vector2D<T> {
     // Column and row dim need to be switched
     let mut tranposed: Vector2D<T> =  Vector2D::<T>::new(self.num_col, self.num_row);
       for row in 0..self.num_row {
@@ -73,19 +73,35 @@ impl<T> std::ops::IndexMut<usize> for Vector2D<T> {
   }   
 }
 
-// impl<T: Add> core::ops::Add<Vector2D<T>> for Vector2D<T> {
+use std::ops::Add;
+impl<T> core::ops::Add<Vector2D<T>> for Vector2D<T> where T: Add<T, Output=T>{
+  type Output = Vector2D<T>;
+
+  fn add(self, _rhs: Vector2D<T>) -> Self::Output {
+    // let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
+
+    for ind in 0..self.vec_size {
+      self.vec[ind] = self.vec[ind] + self.vec[ind];
+    }
+    self
+  }
+}
+
+// impl<T: std::ops::Mul> Mul<T> for Vector2D<T> {
 //   type Output = Vector2D<T>;
 
-//   fn add(self, _rhs: Vector2D<T>) -> Vector2D<T> {
+//   fn mul(self, s: T) -> Vector2D<T> {
+    
 //     let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
 
-//     for ind in 0..self.vec_size {
-//       result.vec[ind] = self.vec[ind] + _rhs.vec[ind];
-//     }
+//     // for row in 0..self.num_row {
+//     //   for col in 0..self.num_col {
+//     //     result[row][col] = s*self[row][col];
+//     //   }
+//     // }
 //     result
 //   }
 // }
-
 
 pub fn tranpose_2d<T: Copy> (vec: &mut Vec<T>, n_row: usize, n_col: usize) {
   let mut temp: Vec<T> =  vec.clone();
