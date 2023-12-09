@@ -79,10 +79,10 @@ impl<T> std::ops::IndexMut<usize> for Vector2D<T> {
 }
 
 use std::ops::Add;
-impl<T: Default + Copy> core::ops::Add<Vector2D<T>> for Vector2D<T> where T: Add<T, Output=T>{
+impl<T: Default + Copy> core::ops::Add<&Vector2D<T>> for &Vector2D<T> where T: Add<T, Output=T>{
   type Output =  Vector2D<T>;
 
-  fn add(self, _rhs: Vector2D<T>) ->  Self::Output {
+  fn add(self, _rhs: &Vector2D<T>) ->  Self::Output {
     let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
 
     for ind in 0..self.vec_size {
@@ -208,10 +208,13 @@ mod tests {
     print!("\n");
     print!("{}", vec_second);
     print!("\n");
-    let mut result_add = vec_2d + vec_second;
+    let mut result_add = &vec_2d + &vec_second;
     print!("{}", result_add);
+    print!("\n");
+    print!("{}", vec_second);
 
     assert_eq!(result_add[1][2],vec_expected[1][2]);
+    assert_eq!(vec_second[1][2],Complex::new(-2,-1))
 
   }
 }
