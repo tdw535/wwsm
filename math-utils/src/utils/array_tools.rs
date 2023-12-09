@@ -9,8 +9,13 @@ pub struct Vector2D<T> {
 }
 
 
-impl<T: Copy + Default> Vector2D<T> {
-  pub fn new(num_row: usize, num_col: usize) -> Vector2D<T> {
+
+impl<T: Default + Copy> Vector2D<T> {
+  pub fn new(num_row: usize, num_col: usize) -> Vector2D<T>
+  where  
+    T: Default, 
+    T: Copy,
+  {
     let vec_size: usize = num_row*num_col;
     let mut vec: Vec<T> = Vec::with_capacity(vec_size);
     for _ind in 0..vec_size {
@@ -74,18 +79,32 @@ impl<T> std::ops::IndexMut<usize> for Vector2D<T> {
 }
 
 use std::ops::Add;
-impl<T> core::ops::Add<Vector2D<T>> for Vector2D<T> where T: Add<T, Output=T>{
-  type Output = Vector2D<T>;
+impl<T: Default + Copy> core::ops::Add<Vector2D<T>> for Vector2D<T> where T: Add<T, Output=T>{
+  type Output =  Vector2D<T>;
 
-  fn add(self, _rhs: Vector2D<T>) -> Self::Output {
-    // let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
+  fn add(self, _rhs: Vector2D<T>) ->  Self::Output {
+    let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
 
     for ind in 0..self.vec_size {
-      self.vec[ind] = self.vec[ind] + self.vec[ind];
+      result.vec[ind] = self.vec[ind] + _rhs.vec[ind];
     }
-    self
+    result
   }
 }
+
+// use std::ops::Mul;
+// impl<T: Default + Copy> core::ops::Mul<T> for Vector2D<T> where T: Mul<T, Output=T>{
+//   type Output =  Vector2D<T>;
+
+//   fn mul(self, _s: T) ->  Self::Output {
+//     let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
+
+//     for ind in 0..self.vec_size {
+//       result.vec[ind] = self.vec[ind] * T;
+//     }
+//     result
+//   }
+// }
 
 // impl<T: std::ops::Mul> Mul<T> for Vector2D<T> {
 //   type Output = Vector2D<T>;
@@ -103,15 +122,15 @@ impl<T> core::ops::Add<Vector2D<T>> for Vector2D<T> where T: Add<T, Output=T>{
 //   }
 // }
 
-pub fn tranpose_2d<T: Copy> (vec: &mut Vec<T>, n_row: usize, n_col: usize) {
-  let mut temp: Vec<T> =  vec.clone();
-    for row in 0..n_row {
-      for col in 0..n_col {
-        temp[n_row*col + row] = vec[n_col*row + col];
-      }
-    }
-  *vec = temp;
-}
+// pub fn tranpose_2d<T: Copy> (vec: &mut Vec<T>, n_row: usize, n_col: usize) {
+//   let mut temp: Vec<T> =  vec.clone();
+//     for row in 0..n_row {
+//       for col in 0..n_col {
+//         temp[n_row*col + row] = vec[n_col*row + col];
+//       }
+//     }
+//   *vec = temp;
+// }
 
 
 
@@ -119,44 +138,7 @@ pub fn tranpose_2d<T: Copy> (vec: &mut Vec<T>, n_row: usize, n_col: usize) {
 mod tests {
   use crate::utils::*;
   use rustfft::{num_complex::Complex};
-  #[test]
-  fn test_tranpose_int() {
-    let n_row:usize = 2;
-    let n_col:usize = 3;
-    let upto:i64 = (n_row*n_col) as i64;
-    let mut v: Vec<i64> = (0..upto).collect();
-    for el in &v {
-      print!("{} ", el);
-    }
-    print!("\n");
-    array_tools::tranpose_2d(&mut v, n_row, n_col);
-    for el in &v {
-      print!("{} ", el);
-    }     
-    assert_eq!(v, [0, 3, 1, 4, 2, 5]); 
-  }
 
-  #[test]
-  fn test_tranpose_complex() {
-    let n_row:usize = 2;
-    let n_col:usize = 3;
-    let upto:i64 = (n_row*n_col) as i64;
-    let zero: Complex<f64> = Complex::new(0.0,0.0);
-
-    let mut v: Vec<Complex<f64>> = Vec::with_capacity(6);
-    for _ii in 0..upto {
-      v.push(zero);
-    }
-    for el in &v {
-      print!("{} ", el);
-    }
-    print!("\n");
-    array_tools::tranpose_2d(&mut v, n_row, n_col);
-    for el in &v {
-      print!("{} ", el);
-    }     
-    assert_eq!(v, [zero, zero, zero, zero, zero, zero]); 
-  }
   #[test]
   fn test_vector2d() {
     let nrow: usize = 2;
@@ -198,21 +180,38 @@ mod tests {
     assert_eq!(vec_2d[1][1],Complex::new(-1,-2));
   }
 
-  // #[test]
-  // fn test_add() {
-  //   let nrow: usize = 2;
-  //   let ncol: usize = 3;
-  //   let mut vec_2d = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
-  //   let mut vec_second = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
-  //   vec_2d[0][0] = Complex::new(1,2);
-  //   vec_2d[1][0] = Complex::new(5,2);
+  #[test]
+  fn test_add() {
+    let nrow: usize = 2;
+    let ncol: usize = 3;
+    let mut vec_2d = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
+    let mut vec_second = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
+    vec_2d[0][0] = Complex::new(1,2);
+    vec_2d[1][0] = Complex::new(5,2);
+    vec_2d[0][2] = Complex::new(-1,2);
+    vec_2d[1][2] = Complex::new(-4,-2);    
 
-  //   vec_second[0][0] = Complex::new(1,2);
-  //   vec_second[1][0] = Complex::new(6,3);    
+    vec_second[0][0] = Complex::new(1,2);
+    vec_second[1][0] = Complex::new(6,3);    
 
-  //   let mut result_add = vec_2d + vec_second;
-  //   print!("{}", result_add);
+    vec_second[0][2] = Complex::new(-6,4);
+    vec_second[1][2] = Complex::new(-2,-1);   
 
 
-  // }
+    let mut vec_expected = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
+    vec_expected[0][0] = Complex::new(2,4);
+    vec_expected[1][0] = Complex::new(11,5); 
+    vec_expected[0][2] = Complex::new(-7,6);
+    vec_expected[1][2] = Complex::new(-6,-3); 
+       
+    print!("{}", vec_2d);
+    print!("\n");
+    print!("{}", vec_second);
+    print!("\n");
+    let mut result_add = vec_2d + vec_second;
+    print!("{}", result_add);
+
+    assert_eq!(result_add[1][2],vec_expected[1][2]);
+
+  }
 }
