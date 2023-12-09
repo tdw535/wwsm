@@ -212,6 +212,8 @@ mod tests {
     print!("{}", result_add);
     print!("\n");
     print!("{}", vec_second);
+    print!("\n");
+    print!("{}", vec_2d);
 
     assert_eq!(result_add[1][2],vec_expected[1][2]);
     assert_eq!(vec_second[1][2],Complex::new(-2,-1))
