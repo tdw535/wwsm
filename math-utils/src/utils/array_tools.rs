@@ -92,35 +92,19 @@ impl<T: Default + Copy> core::ops::Add<&Vector2D<T>> for &Vector2D<T> where T: A
   }
 }
 
-// use std::ops::Mul;
-// impl<T: Default + Copy> core::ops::Mul<T> for Vector2D<T> where T: Mul<T, Output=T>{
-//   type Output =  Vector2D<T>;
+use std::ops::Mul;
+impl<T: Default + Copy> core::ops::Mul<T> for &mut Vector2D<T> where T: Mul<T, Output=T>{
+  type Output =  Vector2D<T>;
 
-//   fn mul(self, _s: T) ->  Self::Output {
-//     let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
+  fn mul(self, _s: T) ->  Self::Output {
+    let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
 
-//     for ind in 0..self.vec_size {
-//       result.vec[ind] = self.vec[ind] * T;
-//     }
-//     result
-//   }
-// }
-
-// impl<T: std::ops::Mul> Mul<T> for Vector2D<T> {
-//   type Output = Vector2D<T>;
-
-//   fn mul(self, s: T) -> Vector2D<T> {
-    
-//     let mut result: Vector2D<T> =  Vector2D::<T>::new(self.num_row, self.num_col);
-
-//     // for row in 0..self.num_row {
-//     //   for col in 0..self.num_col {
-//     //     result[row][col] = s*self[row][col];
-//     //   }
-//     // }
-//     result
-//   }
-// }
+    for ind in 0..self.vec_size {
+      result.vec[ind] = self.vec[ind] * _s;
+    }
+    result
+  }
+}
 
 // pub fn tranpose_2d<T: Copy> (vec: &mut Vec<T>, n_row: usize, n_col: usize) {
 //   let mut temp: Vec<T> =  vec.clone();
@@ -169,10 +153,10 @@ mod tests {
     vec_2d[0][0] = Complex::new(1,2);
     vec_2d[1][0] = Complex::new(5,2);
 
-    let mut vec_row = vec_2d.get_row(1);
+    let vec_row = vec_2d.get_row(1);
     vec_row[1] = Complex::new(-1,-2);
 
-    let mut vec_row = vec_2d.get_row(0);
+    let vec_row = vec_2d.get_row(0);
     vec_row[2] = Complex::new(-7,-5);
     
     print!("{}", vec_2d);
@@ -208,7 +192,7 @@ mod tests {
     print!("\n");
     print!("{}", vec_second);
     print!("\n");
-    let mut result_add = &vec_2d + &vec_second;
+    let result_add = &vec_2d + &vec_second;
     print!("{}", result_add);
     print!("\n");
     print!("{}", vec_second);
@@ -217,6 +201,32 @@ mod tests {
 
     assert_eq!(result_add[1][2],vec_expected[1][2]);
     assert_eq!(vec_second[1][2],Complex::new(-2,-1))
-
   }
+  #[test]
+  fn test_multiply() {
+    let nrow: usize = 2;
+    let ncol: usize = 3;
+    let mut vec_2d = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
+    vec_2d[0][0] = Complex::new(1,2);
+    vec_2d[1][0] = Complex::new(5,2);
+
+    let scalar:Complex<i64> = Complex::new(3,4);
+
+    let mut vec_expected = array_tools::Vector2D::<Complex<i64>>::new(nrow, ncol);
+    vec_expected[0][0] = Complex::new(-5,10);
+    vec_expected[1][0] = Complex::new(7,26); 
+
+    print!("{}", vec_2d);
+    print!("\n");
+    let result_multiply = &mut vec_2d*scalar;
+    print!("{}", result_multiply);
+    print!("\n");
+    print!("{}", vec_2d);
+    print!("\n");
+    assert_eq!(result_multiply[1][2],vec_expected[1][2]);
+    assert_eq!(result_multiply[0][0],vec_expected[0][0]);
+    assert_eq!(result_multiply[1][0],vec_expected[1][0]);
+
+  }  
+
 }
