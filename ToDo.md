@@ -31,9 +31,9 @@
 - - - - [x] Rewrite so that transpose uses the new indexing
 - - - - [x] Figure out copy trait
 - - - - [x] Override Add, 
-- - - - [ ] scalar multiply, entry wise multiply
+- - - - [x] scalar multiply, entry wise multiply
 - - - - -[x] Figure out issue with using new
-- - - - -[ ] Figure out how to fix copy trait issue with buffer
+- - - - -[x] Figure out how to fix copy trait issue with buffer
 - - [ ] Figure out how to use fast transpose with FFT
 - - [ ] Figure out how to do Parallel FFT
 - [ ] Create a grid object
