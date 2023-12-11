@@ -29,9 +29,9 @@ impl FFT2DManager {
     }
     let mut buffer_tranposed = buffer.tranpose_2d();
     for col in 0..self.dim_2 {
-      self.manager_1.fft_forward(&mut buffer.get_row(col));
+      self.manager_1.fft_forward(&mut buffer_tranposed.get_row(col));
     }    
-    buffer = &mut buffer_tranposed.tranpose_2d();
+    *buffer = buffer_tranposed.tranpose_2d();
 
     true
   }
@@ -45,9 +45,9 @@ impl FFT2DManager {
     }
     let mut buffer_tranposed = buffer.tranpose_2d();
     for col in 0..self.dim_2 {
-      self.manager_1.fft_inverse(&mut buffer.get_row(col));
+      self.manager_1.fft_inverse(&mut buffer_tranposed.get_row(col));
     }    
-    buffer = &mut buffer_tranposed.tranpose_2d();
+    *buffer = buffer_tranposed.tranpose_2d();
 
     true
   }
@@ -61,7 +61,7 @@ impl FFT2DManager {
   fn fft2d_normalize(&self, buffer: &mut Vector2D<Complex<f64>>) {
     let norm_factor = 1.0/buffer.len() as f64;
     let c_n_factor = Complex::new(norm_factor,0.0);
-    let mut result =  buffer * c_n_factor;
+    let mut result =  &(*buffer) * c_n_factor;
     *buffer = result;
   }        
 }
@@ -125,7 +125,7 @@ mod tests {
       print!("\n");
 
     }
-
+    print!("\n");
     for row in 0..nx {
       for col in 0..ny {
         let val1 = v[row][col];
@@ -136,7 +136,7 @@ mod tests {
         ma::assert_le!(diff_real, 1e-3);
         ma::assert_le!(diff_im, 1e-3);
       }
-
+      print!("\n");
     }
 
 

@@ -93,7 +93,7 @@ impl<T: Default + Copy> core::ops::Add<&Vector2D<T>> for &Vector2D<T> where T: A
 }
 
 use std::ops::Mul;
-impl<T: Default + Copy> core::ops::Mul<T> for &mut Vector2D<T> where T: Mul<T, Output=T>{
+impl<T: Default + Copy> core::ops::Mul<T> for &Vector2D<T> where T: Mul<T, Output=T>{
   type Output =  Vector2D<T>;
 
   fn mul(self, _s: T) ->  Self::Output {
@@ -218,7 +218,7 @@ mod tests {
 
     print!("{}", vec_2d);
     print!("\n");
-    let result_multiply = &mut vec_2d*scalar;
+    let result_multiply = &vec_2d*scalar;
     print!("{}", result_multiply);
     print!("\n");
     print!("{}", vec_2d);
