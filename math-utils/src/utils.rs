@@ -1,4 +1,4 @@
 mod constants;
 mod fft_manager;
-mod fft2d_manager;
-mod array_tools;
+pub mod fft2d_manager;
+pub mod array_tools;

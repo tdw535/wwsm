@@ -20,9 +20,12 @@
 - [ ] Clean up ScoreHandler 
 - [ ] Add functionality to add new user name and score
 - [ ] Convert float to greyscale in index.html
-- [ ] Work on a simple 2D/3D fft https://docs.rs/fft2d/latest/fft2d/slice/fn.fft_2d.html
+- [ ] 3D wireframe in WASM/JS
+- [ ] Water reflection on sea floor
+- [ ] How to setup initial values? -- want droplet
+- [D] Work on a simple 2D/3D fft https://docs.rs/fft2d/latest/fft2d/slice/fn.fft_2d.html
 - - [x] Figure out crates/modules for importing constants
-- - [ ] Figure out how to use vector slices with FFT
+- - [x] Figure out how to use vector slices with FFT
 - - - [x] Get tranpose of 2d matrix working
 - - - [x] Figure out how to templetize transpose
 - - - [x] Write unit test for 2d FFT forward
