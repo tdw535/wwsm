@@ -24,6 +24,7 @@
 - [ ] Water reflection on sea floor
 - [ ] How to setup initial values? -- want droplet
 - [ ] Implement time step and fft of sol
+- [ ] Ray tracing based on height of water
 - [D] Work on a simple 2D/3D fft https://docs.rs/fft2d/latest/fft2d/slice/fn.fft_2d.html
 - - [x] Figure out crates/modules for importing constants
 - - [x] Figure out how to use vector slices with FFT
