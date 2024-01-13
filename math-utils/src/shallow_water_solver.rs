@@ -5,6 +5,8 @@ use crate::shallow_water_solution;
 
 use crate::utils::array_tools::Vector2D;
 
+use crate::asset_reader;
+
 use rustfft::{num_complex::Complex};
 
 
@@ -32,6 +34,7 @@ impl ShallowWaterSolver {
     let sol_hat = shallow_water_solution::ShallowWaterSolution::new(dim_1, dim_2);
 
     // Read in data
+    // asset_reader::readin_initial_value()  
     // Fourier transform sol into sol hat
 
     ShallowWaterSolver{dim_1, dim_2, width_1, width_2, dx_1, dx_2, fft2d_manager, sol, sol_hat}
