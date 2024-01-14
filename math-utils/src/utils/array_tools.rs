@@ -1,6 +1,8 @@
 
 use std::fmt; // Import `fmt`
 
+// Maybe want to use builder pattern here?
+
 pub struct Vector2D<T> {
   num_row: usize,
   num_col: usize,

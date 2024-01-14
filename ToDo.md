@@ -23,7 +23,8 @@
 - [ ] 3D wireframe in WASM/JS
 - [ ] Water reflection on sea floor
 - [ ] How to setup initial values? -- want droplet
-- -CURRENT_TASK [ ] Figure out issue about reading in intial values (asset_reader)
+- - [x] Figure out issue about reading in intial values (asset_reader)
+- - CURRENT_TASK [ ] Convert initial values to complex then go on to implement the actual time-stepping & algorithm
 - [ ] Implement time step and fft of sol
 - [ ] Ray tracing based on height of water
 - [D] Work on a simple 2D/3D fft https://docs.rs/fft2d/latest/fft2d/slice/fn.fft_2d.html
