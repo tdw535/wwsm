@@ -5,15 +5,15 @@ use std::error::Error;
 use csv::{ReaderBuilder, StringRecord};
 
 pub struct AssetReader {
-  asset_directory: String
+  file_path: String
 }
 
 impl AssetReader {
-  pub fn new(asset_directory: String) ->  AssetReader {
-    AssetReader{asset_directory}
+  pub fn new(file_path: String) ->  AssetReader {
+    AssetReader{file_path}
   }
   pub fn read_initial_values(self) -> Result<Vector2D<f64>, Box<dyn Error>> {
-    let file_to_read: String = self.asset_directory.clone() + "initial_values_test.csv";
+    let file_to_read: String = self.file_path.clone();
     // println!("{}", file_to_read);
     // println!("Current dir {}", std::env::current_dir()?.display());
 
@@ -42,6 +42,7 @@ impl AssetReader {
     }
     values
   }
+  
 }
 
 #[cfg(test)]
@@ -52,7 +53,7 @@ mod tests {
 
   #[test]
   fn test_read_initial_values() {
-    let asset_reader = AssetReader::new("/home/dev/Projects/wwsm/assets/".to_string());
+    let asset_reader = AssetReader::new("/home/dev/Projects/wwsm/assets/initial_values_test.csv".to_string());
     let init_vals: Vector2D<f64> = match asset_reader.read_initial_values() {
       Ok(init_vals)  => init_vals,
       Err(e) => panic!("{}", e),

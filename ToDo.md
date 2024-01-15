@@ -24,7 +24,10 @@
 - [ ] Water reflection on sea floor
 - [ ] How to setup initial values? -- want droplet
 - - [x] Figure out issue about reading in intial values (asset_reader)
-- - CURRENT_TASK [ ] Convert initial values to complex then go on to implement the actual time-stepping & algorithm
+- - [x] Convert initial values to complex
+- - [ ] CURRENT_TASK  Figure out initialization of the u,v, h
+- - [ ] implement the actual time-stepping & algorithm
+- - [ ] Conversion back to float from complex
 - [ ] Implement time step and fft of sol
 - [ ] Ray tracing based on height of water
 - [D] Work on a simple 2D/3D fft https://docs.rs/fft2d/latest/fft2d/slice/fn.fft_2d.html

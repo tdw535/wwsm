@@ -5,7 +5,6 @@ use crate::shallow_water_solution;
 
 use crate::utils::array_tools::Vector2D;
 
-use crate::asset_reader;
 
 use rustfft::{num_complex::Complex};
 

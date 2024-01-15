@@ -1,5 +1,6 @@
 
 use std::fmt; // Import `fmt`
+use rustfft::{num_complex::Complex};
 
 // Maybe want to use builder pattern here?
 
@@ -108,6 +109,7 @@ impl<T: Default + Copy> core::ops::Mul<T> for &Vector2D<T> where T: Mul<T, Outpu
   }
 }
 
+
 // pub fn tranpose_2d<T: Copy> (vec: &mut Vec<T>, n_row: usize, n_col: usize) {
 //   let mut temp: Vec<T> =  vec.clone();
 //     for row in 0..n_row {
@@ -118,7 +120,18 @@ impl<T: Default + Copy> core::ops::Mul<T> for &Vector2D<T> where T: Mul<T, Outpu
 //   *vec = temp;
 // }
 
+// Would be nice to convert to Generic
+fn convert_vector2d_real_to_complex(real_vec: Vector2D<f64> ) -> Vector2D<Complex<f64>> {
+  let mut output = Vector2D::<Complex<f64>>::new(real_vec.num_row, real_vec.num_col);
 
+  for ii in 0..real_vec.num_row {
+    for jj in 0..real_vec.num_col {
+      output[ii][jj] = Complex::new(real_vec[ii][jj], 0.0);
+    }
+  }
+
+  output
+}
 
 #[cfg(test)]
 mod tests {
@@ -230,5 +243,15 @@ mod tests {
     assert_eq!(result_multiply[1][0],vec_expected[1][0]);
 
   }  
+  #[test]
+  fn conversion_to_complex() {
+    let nrow: usize = 2;
+    let ncol: usize = 3;
+    let mut vec_2d = array_tools::Vector2D::<f64>::new(nrow, ncol);
+    vec_2d[1][2] = 1.2;
+    let mut vec_2d_complex = array_tools::convert_vector2d_real_to_complex(vec_2d);
+    println!("Testing conversion");
+    assert_eq!(vec_2d_complex[1][2],Complex::new(1.2,0.0));
+  }
 
 }
