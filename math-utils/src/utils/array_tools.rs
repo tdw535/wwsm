@@ -121,12 +121,24 @@ impl<T: Default + Copy> core::ops::Mul<T> for &Vector2D<T> where T: Mul<T, Outpu
 // }
 
 // Would be nice to convert to Generic
-fn convert_vector2d_real_to_complex(real_vec: Vector2D<f64> ) -> Vector2D<Complex<f64>> {
+fn convert_vector2d_real_to_complex(real_vec: Vector2D<f64>) -> Vector2D<Complex<f64>> {
   let mut output = Vector2D::<Complex<f64>>::new(real_vec.num_row, real_vec.num_col);
 
   for ii in 0..real_vec.num_row {
     for jj in 0..real_vec.num_col {
       output[ii][jj] = Complex::new(real_vec[ii][jj], 0.0);
+    }
+  }
+
+  output
+}
+
+fn convert_vector2d_complex_to_real(complex_vec: Vector2D<Complex<f64>>) -> Vector2D<f64> {
+  let mut output = Vector2D::<f64>::new(complex_vec.num_row, complex_vec.num_col);
+
+  for ii in 0..complex_vec.num_row {
+    for jj in 0..complex_vec.num_col {
+      output[ii][jj] = complex_vec[ii][jj].re;
     }
   }
 
@@ -244,7 +256,7 @@ mod tests {
 
   }  
   #[test]
-  fn conversion_to_complex() {
+  fn conversion_to_complex_and_back() {
     let nrow: usize = 2;
     let ncol: usize = 3;
     let mut vec_2d = array_tools::Vector2D::<f64>::new(nrow, ncol);
@@ -252,6 +264,8 @@ mod tests {
     let mut vec_2d_complex = array_tools::convert_vector2d_real_to_complex(vec_2d);
     println!("Testing conversion");
     assert_eq!(vec_2d_complex[1][2],Complex::new(1.2,0.0));
+    let mut vec_2d_convert_back = array_tools::convert_vector2d_complex_to_real(vec_2d_complex);
+    assert_eq!(vec_2d_convert_back[1][2], 1.2);
   }
 
 }

@@ -1,3 +1,8 @@
+Letter Key:
+x: task done
+D: Done
+T: Need to test test
+
 - Figure out animation
 - [ ] Fix issue with init_vec; and using real only vs complex + real
 [x] Remote dev environment using Remote vscode in Vmachine
@@ -25,9 +30,11 @@
 - [ ] How to setup initial values? -- want droplet
 - - [x] Figure out issue about reading in intial values (asset_reader)
 - - [x] Convert initial values to complex
-- - [ ] CURRENT_TASK  Figure out initialization of the u,v, h
+- - [ ] CURRENT_TASK  Figure out initialization of the u,v, h (fix test error of self)
+- - [ ] Get passing of the u, v, h data to JS
+- - [ ] Visualize h initial data
 - - [ ] implement the actual time-stepping & algorithm
-- - [ ] Conversion back to float from complex
+- - [T] Conversion back to float from complex
 - [ ] Implement time step and fft of sol
 - [ ] Ray tracing based on height of water
 - [D] Work on a simple 2D/3D fft https://docs.rs/fft2d/latest/fft2d/slice/fn.fft_2d.html
