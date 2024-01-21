@@ -10,6 +10,9 @@ crate-type=["cdylib"]
 
 [dependencies]
 wasm-bindgen = "0.2.39"
+more-asserts = "0.3.1"
+math-utils = {path = "../math-utils"}
+
 
 [profile.dev]
 opt-level = 0

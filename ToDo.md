@@ -4,7 +4,10 @@ D: Done
 T: Need to test test
 
 - Figure out animation
-- [ ] Fix issue with init_vec; and using real only vs complex + real
+- [ ] Figure out how to use math-utils in compute-engine, so that we can
+- - [x] read in test data from asset_reader
+- - [ ] make the data accessible for the JS side
+- - [ ] How to handle test data vs not test data? Use flag to determine which file to read?
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing
 - Figure out directory structure
