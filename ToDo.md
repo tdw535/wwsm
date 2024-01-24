@@ -7,6 +7,7 @@ T: Need to test test
 - [ ] Figure out how to use math-utils in compute-engine, so that we can
 - - [x] read in test data from asset_reader
 - - [ ] make the data accessible for the JS side
+- - [ ] Figure out why data is not being piped through; possibly due to using another library
 - - [ ] How to handle test data vs not test data? Use flag to determine which file to read?
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing
@@ -20,7 +21,7 @@ T: Need to test test
 - Setup some dummy data in a simple data file, so that webpage can obtain the info
 - - figure out basic sqlAlchemy using sqlite
 - [x] Got basic query working
-- [D] clean up table creation, insertion, and querying code
+- [D] clean up table creation, insertion, and querying codecccccbbblvfttkbku
 - [ ] Figure out CORS issue to get communication working with page
 (e.g. top score stats) [Seems like a resource issue]
 - [x] Figure out how to make table so that the same table doesn't get constantly generated 

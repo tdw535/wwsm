@@ -4,14 +4,14 @@ use math_utils::asset_reader::*;
 use math_utils::utils::array_tools::Vector2D;
 
 #[wasm_bindgen]
-
-pub struct Scene {
+pub struct DisplayScene {
   height: Vector2D<f64>,
+  height_accessible: Vec<f64>
 }
 
 #[wasm_bindgen]
-impl Scene {
-  pub fn new() -> Scene {
+impl DisplayScene {
+  pub fn new() -> DisplayScene {
     let file_path: String = "/home/dev/Projects/wwsm/assets/initial_values_test.csv".to_string();
     
     let asset_reader = AssetReader::new(file_path);
@@ -19,8 +19,9 @@ impl Scene {
       Ok(height)  => height,
       Err(e) => panic!("{}", e),
     };
+    let mut height_accessible = height.as_vec();
 
-    Scene {height}
+    DisplayScene {height, height_accessible}
   }
 }
 
@@ -32,7 +33,7 @@ mod tests {
 
   #[test]
   pub fn test_init_vals(){
-    let scene = Scene::new();
+    let scene = DisplayScene::new();
 
     let val_as_array = [1.0, 0.0, -1.0, 0.0]; 
     let expected_values: Vec<f64> = val_as_array.to_vec(); 

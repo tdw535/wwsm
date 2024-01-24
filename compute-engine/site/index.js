@@ -1,5 +1,6 @@
-
 import { Universe, Cell } from "compute-engine";
+
+import { DisplayScene } from "compute-engine";
 import { memory } from "compute-engine/compute_engine_bg";
 
 
@@ -17,6 +18,11 @@ const universe = Universe.new(60, 60);
 const width = universe.width();
 const height = universe.height();
 
+const display_scene = DisplayScene.new();
+// console.log("Display scene");
+// console.log(display_scene.height[0]);
+// console.log(display_scene.height[0]);
+
 // Give the canvas room for all of our cells and a 1px border
 // around each of them.
 const canvas = document.getElementById("game-of-life-canvas");
@@ -30,9 +36,11 @@ const playPauseButton = document.getElementById("play-pause");
 const nextPageButton = document.getElementById("next-page");
 
 nextPageButton.textContent = "Next Page";
-nextPageButton.addEventListener("click", async () => {
-  location.href = 'scorePage.html';
-});
+// nextPageButton.addEventListener("click", async () => {
+//   location.href = 'scorePage.html';
+// });
+
+
 
 const play = () => {
   playPauseButton.textContent = "⏸";

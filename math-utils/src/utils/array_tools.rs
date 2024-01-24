@@ -46,6 +46,10 @@ impl<T: Default + Copy> Vector2D<T> {
     &mut self.vec[row*self.num_col..(row+1)*self.num_col]
   }
 
+  pub fn as_vec(&self) -> Vec<T> {
+    self.vec.clone()
+  }
+
 }
 
 impl<T: fmt::Display> fmt::Display for Vector2D<T> {
