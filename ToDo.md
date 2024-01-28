@@ -21,7 +21,7 @@ T: Need to test test
 - Setup some dummy data in a simple data file, so that webpage can obtain the info
 - - figure out basic sqlAlchemy using sqlite
 - [x] Got basic query working
-- [D] clean up table creation, insertion, and querying codecccccbbblvfttkbku
+- [D] clean up table creation, insertion, and querying code
 - [ ] Figure out CORS issue to get communication working with page
 (e.g. top score stats) [Seems like a resource issue]
 - [x] Figure out how to make table so that the same table doesn't get constantly generated 

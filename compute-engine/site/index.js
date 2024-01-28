@@ -1,6 +1,6 @@
 import { Universe, Cell } from "compute-engine";
 
-import { DisplayScene } from "compute-engine";
+// import { DisplayScene } from "compute-engine";
 import { memory } from "compute-engine/compute_engine_bg";
 
 
@@ -18,7 +18,7 @@ const universe = Universe.new(60, 60);
 const width = universe.width();
 const height = universe.height();
 
-const display_scene = DisplayScene.new();
+// const display_scene = DisplayScene.new();
 // console.log("Display scene");
 // console.log(display_scene.height[0]);
 // console.log(display_scene.height[0]);
