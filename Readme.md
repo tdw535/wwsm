@@ -11,10 +11,15 @@ References
 
 
 Basic setup and running:
+
 From $ compute-engine
+
 $ wasm-pack build --target bundler
+
 $ cd pkg && npm link
+
 $ cd ../site && npm link compute-engine
+
 $ npm run serve
 
 
