@@ -25,12 +25,8 @@ $ npm run serve
 
 
 
-webpack 4 error
+For webpack 4 error, run command below (https://github.com/webpack/webpack/issues/14532)
 
-Run
-
-
-https://github.com/webpack/webpack/issues/14532
 export NODE_OPTIONS=--openssl-legacy-provider
 
 
