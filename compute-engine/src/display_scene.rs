@@ -1,29 +1,41 @@
-// use wasm_bindgen::prelude::*;
+use wasm_bindgen::prelude::*;
+use js_sys::Error;
 
-// use math_utils::asset_reader::*;
-// use math_utils::utils::array_tools::Vector2D;
+use math_utils::asset_reader::*;
+use math_utils::utils::array_tools::Vector2D;
 
-// #[wasm_bindgen]
-// pub struct DisplayScene {
-//   height: Vector2D<f64>,
-//   height_accessible: Vec<f64>
-// }
+#[wasm_bindgen]
+// #[derive(Clone, Copy)]
+pub struct DisplayScene {
+  // height: i32,
+  // height_accessible: i32
+  height: Vector2D<f64>,
+  height_accessible: Vec<f64>
+}
 
-// #[wasm_bindgen]
-// impl DisplayScene {
-//   pub fn new() -> DisplayScene {
-//     let file_path: String = "/home/dev/Projects/wwsm/assets/initial_values_test.csv".to_string();
+#[wasm_bindgen]
+impl DisplayScene {
+  pub fn new() -> DisplayScene {
+    let file_path: String = "/home/dev/Projects/wwsm/assets/initial_values_test.csv".to_string();
     
-//     let asset_reader = AssetReader::new(file_path);
-//     let mut height: Vector2D<f64> = match asset_reader.read_initial_values() {
-//       Ok(height)  => height,
-//       Err(e) => panic!("{}", e),
-//     };
-//     let mut height_accessible = height.as_vec();
+    let asset_reader = AssetReader::new(file_path);
+    let mut height: Vector2D<f64> = Vector2D::new(2,3);
+    // let mut height_err = asset_reader.read_initial_values();
+    let mut height_result = asset_reader.read_initial_values();
+    height = height_result?;
 
-//     DisplayScene {height, height_accessible}
-//   }
-// }
+    // let mut height = Vector2D::<f64>::new(2,3);
+    let mut height_accessible = height.as_vec();
+    // let mut height = height;
+    // let mut height_accessible = 2*height;
+    DisplayScene {height, height_accessible}
+  }
+
+  pub fn height_zero(&self) -> f64 {
+    5.0
+    // self.height[0][0]
+  }
+}
 
 // #[cfg(test)]
 // mod tests {

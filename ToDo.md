@@ -4,11 +4,12 @@ D: Done
 T: Need to test test
 
 - Figure out animation
-- [ ] Figure out how to use math-utils in compute-engine, so that we can
+- [c] Figure out how to use math-utils in compute-engine, so that we can
 - - [x] read in test data from asset_reader
-- - [ ] make the data accessible for the JS side
-- - [ ] Figure out why data is not being piped through; possibly due to using another library
-- - [ ] How to handle test data vs not test data? Use flag to determine which file to read?
+- - [x] make the data accessible for the JS side
+- - [x] Figure out why data is not being piped through; possibly due to using another library
+- - [ ] Figure out how to use match in init or use some other init func; seems like match/result is causing the issue
+- - [] How to handle test data vs not test data? Use flag to determine which file to read?
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing
 - Figure out directory structure

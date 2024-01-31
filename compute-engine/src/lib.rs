@@ -1,5 +1,5 @@
 mod wasm_comm;
-// mod display_scene;
+mod display_scene;
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
