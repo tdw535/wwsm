@@ -17,9 +17,21 @@ const width = universe.width();
 const height = universe.height();
 
 const display_scene = DisplayScene.new();
+try {
+  display_scene.readin();
+}
+catch (error) {
+  console.error(error);
+}
 const height_ds = display_scene.height_zero()
+const height_vec_ptr = display_scene.height_accessible_js()
+const height_vec = new Float64Array(memory.buffer, height_vec_ptr, 4 * 6);
 console.log("Display scene");
 console.log(height_ds);
+console.log("Display scene height");
+for (let j = 0; j < 24; j++) {
+  console.log(height_vec[j]);
+}
 
 console.log("Hello");
 

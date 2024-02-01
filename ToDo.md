@@ -8,7 +8,9 @@ T: Need to test test
 - - [x] read in test data from asset_reader
 - - [x] make the data accessible for the JS side
 - - [x] Figure out why data is not being piped through; possibly due to using another library
-- - [ ] Figure out how to use match in init or use some other init func; seems like match/result is causing the issue
+- - [x] Figure out how to use match in init or use some other init func; seems like match/result is causing the issue
+- - [ ] Fix issue of numbers being passed in being not the expected values
+- - [ ] Try/Catch issue in JS
 - - [] How to handle test data vs not test data? Use flag to determine which file to read?
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing
