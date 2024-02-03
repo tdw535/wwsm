@@ -1,4 +1,6 @@
 
+use crate::utils::constants::_PI;
+
 use std::fmt; // Import `fmt`
 use rustfft::{num_complex::Complex};
 
@@ -148,6 +150,21 @@ fn convert_vector2d_complex_to_real(complex_vec: Vector2D<Complex<f64>>) -> Vect
 
   output
 }
+
+// Test vec
+pub fn init_vec_real(v2d: &mut Vector2D<f64>, row: usize, col: usize, f: &dyn Fn(f64) -> f64) {
+
+  let dx:f64 = (2.0*_PI)/(1.0*((row) as f64));
+  let dy:f64 = (2.0*_PI)/(1.0*((col) as f64));
+  for ii in 0..row {
+    for jj in 0..col {
+      let grid_value = f(1.0*dy* (jj as f64)*dx* (ii as f64));
+      v2d[ii][jj] = grid_value;
+    }
+  }
+}
+
+
 
 #[cfg(test)]
 mod tests {
