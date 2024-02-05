@@ -14,6 +14,7 @@ T: Need to test test
 - - - [ ] Why issue reading in file when wasm? 
 - - [ ] Eventually go for getting info from server; use dummy function to set up init vals
 - - - - [ ] Work around, read in data from JS side and pass to Rust?
+- - - - [ ] Figure out how to send request from Rust to server
 - - [] How to handle test data vs not test data? Use flag to determine which file to read?
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing

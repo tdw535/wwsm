@@ -36,7 +36,10 @@ impl DisplayScene {
     DisplayScene {row, col, height, height_accessible}
   }
   pub fn init_sin(&mut self) {
-    array_tools::init_vec_real(&mut self.height, self.row, self.col, &f64::sin);
+    array_tools::init_vec_real(&mut self.height, self.row, self.col, &f64::cos);
+    self.height_accessible = self.height.as_vec();
+    self.height_accessible[0] = 1.1;
+
   }
 
 
@@ -53,8 +56,17 @@ impl DisplayScene {
       return Err(JsError::new("Error reading in init values of display scene"))
     }    
     Ok(())
-
   }
+  // pub fn readin_init(&mut self) -> Result<(), JsError> {
+  //   let mut handler = HttpHandler::new("http://localhost:5057/a".to_string());
+
+  //  if let Ok(val) = handler.test_request().await {
+  //   println!("{:?}", val);
+  //  } else {
+  //   println!("error");
+  //  }    
+  // }
+
   pub fn height_accessible_js(&self) -> *const f64 {
     self.height_accessible.as_ptr()
   }
@@ -68,7 +80,7 @@ mod tests {
 
   #[test]
   fn test_read_initial_values() {
-    let mut scene = DisplayScene::new();
+    let mut scene = DisplayScene::new(4, 6);
     scene.readin();
 
 
