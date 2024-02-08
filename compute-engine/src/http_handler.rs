@@ -1,6 +1,10 @@
 use reqwest;
+use serde::{Deserialize, Serialize};
+use serde_json;
+
 use futures::executor::block_on;
-use futures::io::Error;
+use futures::io;
+
 
 
 
@@ -8,12 +12,15 @@ pub struct HttpHandler {
     main_address: String
 }
 
+
+// Figure out good way to send request and parse
+
 impl HttpHandler {
     pub fn new(main_address: String) -> HttpHandler {
         HttpHandler {main_address}
     }
-
-   pub async fn test_request(&self) -> Result<String, reqwest::Error> {
+    pub async fn test_request(&self) -> reqwest::Result<String> {
+  //  pub async fn test_request(&self) -> Result<String, reqwest::Error> {
       // chaining .await will yield our query result
       let client = reqwest::Client::new();
       let address:String = "http://localhost:5057/a".to_string();
@@ -27,9 +34,27 @@ impl HttpHandler {
           .unwrap()
           .text()
           .await;
-      println!("{:?}", response);
+
       response
-      
+
+    }
+    pub async fn test_request_and_parse_response(&self) -> Vec<f64> {
+
+      let val_result:Result<String, reqwest::Error> = self.test_request().await;
+      if let Ok(val) = val_result {
+        let val_vec_result:Result<Vec<f64>, serde_json::Error> = serde_json::from_str(&val);
+        if let Ok(val_vec) = val_vec_result {
+          println!("{:?}", val_vec);
+          return val_vec
+    
+        } else {
+          println!("Parsing error");
+        }
+       } else {
+        println!("error");
+       }
+      // Do things just like with any other Rust data structure.
+       Vec::<f64>::new()
     }
 }
 
@@ -47,7 +72,10 @@ use futures::executor::block_on;
    } else {
     println!("error");
    }
-
+   let vec_val = handler.test_request_and_parse_response().await;
+   for n in 0..vec_val.len() {
+    println!("{}",vec_val[n])
+   }
 
 
     // let val_as_array = [1.0, 0.0, -1.0, 0.0]; 

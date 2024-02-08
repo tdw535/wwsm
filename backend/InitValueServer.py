@@ -21,7 +21,7 @@ print(initValServer.get_init_val())
 
 @app.route("/a")
 def get_init_val():
-    init_val = initValServer.get_init_val().tolist()
+    init_val = (initValServer.get_init_val().ravel().tolist())
     jsonString = json.dumps(init_val)
     return jsonString
 
