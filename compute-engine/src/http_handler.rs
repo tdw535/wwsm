@@ -1,11 +1,21 @@
 use reqwest;
 use serde::{Deserialize, Serialize};
 use serde_json;
+use schemars::{schema_for, JsonSchema};
+
 
 use futures::executor::block_on;
 use futures::io;
 
 
+
+#[derive(Deserialize, Serialize, JsonSchema)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MyStruct {
+    pub row: usize,
+    pub col: usize,
+    pub vals: Vec<f64>
+}
 
 
 pub struct HttpHandler {
@@ -38,13 +48,13 @@ impl HttpHandler {
       response
 
     }
-    pub async fn test_request_and_parse_response(&self) -> Vec<f64> {
+    pub async fn test_request_and_parse_response(&self) -> MyStruct {
 
       let val_result:Result<String, reqwest::Error> = self.test_request().await;
       if let Ok(val) = val_result {
-        let val_vec_result:Result<Vec<f64>, serde_json::Error> = serde_json::from_str(&val);
+        let val_vec_result:Result<MyStruct, serde_json::Error> = serde_json::from_str(&val);
         if let Ok(val_vec) = val_vec_result {
-          println!("{:?}", val_vec);
+          println!("{:?}", val_vec.vals);
           return val_vec
     
         } else {
@@ -54,7 +64,10 @@ impl HttpHandler {
         println!("error");
        }
       // Do things just like with any other Rust data structure.
-       Vec::<f64>::new()
+      let row:usize = 0;
+      let col:usize = 0;
+      let vals:Vec<f64> = Vec::new();
+      MyStruct{row, col, vals}
     }
 }
 
@@ -73,10 +86,13 @@ use futures::executor::block_on;
     println!("error");
    }
    let vec_val = handler.test_request_and_parse_response().await;
-   for n in 0..vec_val.len() {
-    println!("{}",vec_val[n])
+   for ii in 0..vec_val.row {
+    for jj in 0..vec_val.col {
+      let n = ii*(vec_val.col) + jj;
+      print!("{} ",vec_val.vals[n])
+    }
+    println!("");
    }
-
 
     // let val_as_array = [1.0, 0.0, -1.0, 0.0]; 
     // print!("Values are");

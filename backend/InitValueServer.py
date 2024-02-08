@@ -21,8 +21,18 @@ print(initValServer.get_init_val())
 
 @app.route("/a")
 def get_init_val():
-    init_val = (initValServer.get_init_val().ravel().tolist())
-    jsonString = json.dumps(init_val)
+    init_val = initValServer.get_init_val()
+    n_row = len(init_val)
+    n_col = len(init_val[0])
+    init_val_oneD = (init_val.ravel().tolist())
+
+    init_val_as_dict = {
+      "vals": init_val_oneD,
+      "row": n_row,
+      "col": n_col
+    }
+
+    jsonString = json.dumps(init_val_as_dict)
     return jsonString
 
 
