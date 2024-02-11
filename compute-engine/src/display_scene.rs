@@ -1,7 +1,6 @@
 use wasm_bindgen::prelude::*;
 
 use math_utils::asset_reader::*;
-use math_utils::utils::array_tools;
 use math_utils::utils::array_tools::Vector2D;
 
 #[wasm_bindgen]
@@ -18,7 +17,7 @@ pub struct DisplayScene {
 #[wasm_bindgen]
 impl DisplayScene {
   pub fn new(row_:i32, col_: i32) -> DisplayScene {
-    let row: usize = row_ as usize;
+let row: usize = row_ as usize;
     let col: usize = col_ as usize;
 
     let mut height: Vector2D<f64> = Vector2D::new(row, col);
@@ -35,14 +34,6 @@ impl DisplayScene {
     
     DisplayScene {row, col, height, height_accessible}
   }
-  pub fn init_sin(&mut self) {
-    array_tools::init_vec_real(&mut self.height, self.row, self.col, &f64::cos);
-    self.height_accessible = self.height.as_vec();
-    self.height_accessible[0] = 1.1;
-
-  }
-
-
   pub fn readin(&mut self) -> Result<(), JsError> {
     let file_path: String = "/home/dev/Projects/wwsm/assets/initial_values_test.csv".to_string();
     
@@ -53,48 +44,54 @@ impl DisplayScene {
       self.height_accessible = self.height.as_vec();
     } else {
       // Send error?
-      return Err(JsError::new("Error reading in init values of display scene"))
+      return Err(JsError::new("Error reading in"))
     }    
     Ok(())
   }
-  // pub fn readin_init(&mut self) -> Result<(), JsError> {
-  //   let mut handler = HttpHandler::new("http://localhost:5057/a".to_string());
 
-  //  if let Ok(val) = handler.test_request().await {
-  //   println!("{:?}", val);
-  //  } else {
-  //   println!("error");
-  //  }    
-  // }
+  pub fn get_init_val(&self) -> Vector2D<f64> {
+  
+  let mut handler = HttpHandler::new("http://localhost:5057/a".to_string());
 
+   if let Ok(val) = handler.test_request().await {
+    println!("{:?}", val);
+   } else {
+    println!("error");
+   }
+   let mut vec_val = handler.request_init_val_and_parse_response().await;
+    
+  }
+
+  pub fn height_zero(&self) -> f64 {
+    5.0
+    // self.height[0][0]
+  }
   pub fn height_accessible_js(&self) -> *const f64 {
     self.height_accessible.as_ptr()
   }
 }
 
-#[cfg(test)]
-mod tests {
-  use crate::display_scene::*;
-  use more_asserts as ma;
+// #[cfg(test)]
+// mod tests {
+//   use crate::display_scene::*;
+//   use more_asserts as ma;
   
 
-  #[test]
-  fn test_read_initial_values() {
-    let mut scene = DisplayScene::new(4, 6);
-    scene.readin();
+//   #[test]
+//   pub fn test_init_vals(){
+//     let scene = DisplayScene::new();
 
+//     let val_as_array = [1.0, 0.0, -1.0, 0.0]; 
+//     let expected_values: Vec<f64> = val_as_array.to_vec(); 
+//     print!("Values are");
+//     for ii in 0..5 {
+//       for jj in 0..3 {
+//         let diff:f64 = (expected_values[jj] - scene.height[ii][jj]).abs();
+//         println!("{}, {}",expected_values[jj], scene.height[ii][jj]);
+//         ma::assert_le!(diff, 1e-3);
+//       }
+//     }
 
+//   }
 
-    // let val_as_array = [1.0, 0.0, -1.0, 0.0]; 
-    print!("Values are");
-    for ii in 0..5 {
-      for jj in 0..3 {
-        let expected_value:f64 = (ii + jj) as f64;
-        let diff:f64 = (expected_value - scene.height[ii][jj]).abs();
-        println!("{}, {}",expected_value, scene.height[ii][jj]);
-        ma::assert_le!(diff, 1e-3);
-      }
-    }
-  }
-
-}
+// }

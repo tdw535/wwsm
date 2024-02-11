@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use serde_json;
 use schemars::{schema_for, JsonSchema};
 
+use math_utils::utils::array_tools::Vector2D;
 
 use futures::executor::block_on;
 use futures::io;
@@ -48,14 +49,17 @@ impl HttpHandler {
       response
 
     }
-    pub async fn test_request_and_parse_response(&self) -> MyStruct {
+
+    // init value 
+    pub async fn request_init_val_and_parse_response(&self) -> Vector2D<f64> {
 
       let val_result:Result<String, reqwest::Error> = self.test_request().await;
       if let Ok(val) = val_result {
         let val_vec_result:Result<MyStruct, serde_json::Error> = serde_json::from_str(&val);
         if let Ok(val_vec) = val_vec_result {
-          println!("{:?}", val_vec.vals);
-          return val_vec
+          let mut init_val: Vector2D<f64> = Vector2D::new(val_vec.row, val_vec.col);
+          init_val.set_vec(val_vec.vals);
+          return init_val
     
         } else {
           println!("Parsing error");
@@ -66,8 +70,8 @@ impl HttpHandler {
       // Do things just like with any other Rust data structure.
       let row:usize = 0;
       let col:usize = 0;
-      let vals:Vec<f64> = Vec::new();
-      MyStruct{row, col, vals}
+      let mut init_val: Vector2D<f64> = Vector2D::new(0,0);
+      init_val
     }
 }
 
@@ -85,11 +89,11 @@ use futures::executor::block_on;
    } else {
     println!("error");
    }
-   let vec_val = handler.test_request_and_parse_response().await;
-   for ii in 0..vec_val.row {
-    for jj in 0..vec_val.col {
-      let n = ii*(vec_val.col) + jj;
-      print!("{} ",vec_val.vals[n])
+   let mut vec_val = handler.request_init_val_and_parse_response().await;
+   let (nrow, ncol) = vec_val.get_dim();
+   for ii in 0..nrow {
+    for jj in 0..ncol {
+      print!("{} ",vec_val[ii][jj])
     }
     println!("");
    }

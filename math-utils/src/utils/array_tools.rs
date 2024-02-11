@@ -31,6 +31,25 @@ impl<T: Default + Copy> Vector2D<T> {
   #[inline]
   pub fn len(&self) -> usize {
     self.vec_size
+  } 
+  
+  // Should be part of simpler 'builder'
+  pub fn set_vec(&mut self, vec: Vec<T> ) {
+    // Should check that num_row, num_col are expected size
+    for _ind in 0..self.vec_size {
+      self.vec[_ind] = vec[_ind].clone();
+    }
+
+  }
+
+  pub fn get_dim(&self) -> (usize, usize) {
+    (self.get_num_row(), self.get_num_col())
+  }
+  pub fn get_num_row(&self) -> usize {
+    return self.num_row
+  }
+  pub fn get_num_col(&self) -> usize {
+    return self.num_col
   }  
 
   pub fn tranpose_2d (&self) ->  Vector2D<T> {
