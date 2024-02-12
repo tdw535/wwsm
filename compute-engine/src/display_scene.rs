@@ -20,12 +20,12 @@ pub struct DisplayScene {
 
 #[wasm_bindgen]
 impl DisplayScene {
-  pub fn new(row_:i32, col_: i32, array_: &JsValue) -> DisplayScene {
+  pub fn new(row_:i32, col_: i32, array_: &[f64]) -> DisplayScene {
     let row: usize = row_ as usize;
     let col: usize = col_ as usize;
 
     let mut height: Vector2D<f64> = Vector2D::new(row, col);
-    height.set_vec(vec_);
+    height.set_vec(array_.to_vec());
     // let mut height_err = asset_reader.read_initial_values();
     // let mut height_result = asset_reader.read_initial_values();
     // height = height_result?;

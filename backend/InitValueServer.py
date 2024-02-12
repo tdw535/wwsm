@@ -11,13 +11,15 @@ cors = CORS(app)
 
 class InitValueServer:
   def __init__(self):
-    self.file_path = r"/home/dev/Projects/wwsm/assets/initial_values_test.csv"
-    self.init_val = np.genfromtxt(self.file_path, delimiter=",", usemask=True)
+    # self.file_path = r"/home/dev/Projects/wwsm/assets/initial_values_test.csv"
+    self.file_path = r"/home/dev/Projects/wwsm/assets/sin1.csv"
+
+    self.init_val = None
   def get_init_val(self):
-    return self.init_val
+    return np.genfromtxt(self.file_path, delimiter=",", usemask=True)
+
 
 initValServer = InitValueServer()
-print(initValServer.get_init_val())
 
 @app.route("/a")
 def get_init_val():

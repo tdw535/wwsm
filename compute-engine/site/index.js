@@ -24,6 +24,21 @@ function getInitVal() {
     .then((data) => {
       console.log("values are");
       console.log(data);
+      const display_scene = DisplayScene.new(data.row, data.col, data.vals);
+      console.log("Got init val");
+      let row = display_scene.get_row();
+      let col = display_scene.get_col();
+      console.log(row);
+      console.log(col);
+      const height_vec_ptr = display_scene.height_accessible_js()
+      const height_vec = new Float64Array(memory.buffer, height_vec_ptr, 4 * 6);
+      // console.log("Display scene");
+      // console.log(height_ds);
+      console.log("Display scene height");
+      for (let j = 0; j < 24; j++) {
+        console.log(height_vec[j]);
+      }
+
     });
 }
 
@@ -32,11 +47,10 @@ function getInitVal() {
 
 getInitVal();
 
-const display_scene = DisplayScene.new(4, 4);
 // let success = display_scene.get_init_val();
 // let row = display_scene.get_row();
 // let col = display_scene.get_col();
-console.log("Got init val");
+// console.log("Got init val");
 // console.log(success);
 // console.log(row);
 // console.log(col);
@@ -49,14 +63,6 @@ console.log("Got init val");
 //   console.error(error);
 // }
 // const height_ds = display_scene.height_zero()
-const height_vec_ptr = display_scene.height_accessible_js()
-const height_vec = new Float64Array(memory.buffer, height_vec_ptr, 4 * 6);
-// console.log("Display scene");
-// console.log(height_ds);
-console.log("Display scene height");
-for (let j = 0; j < 24; j++) {
-  console.log(height_vec[j]);
-}
 
 console.log("Hello");
 
