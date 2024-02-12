@@ -16,8 +16,32 @@ const universe = Universe.new(60, 60);
 const width = universe.width();
 const height = universe.height();
 
-const display_scene = DisplayScene.new();
-display_scene.init_sin()
+
+
+function getInitVal() {
+  return fetch("http://localhost:5057/a", { method: 'GET' })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("values are");
+      console.log(data);
+    });
+}
+
+
+
+
+getInitVal();
+
+const display_scene = DisplayScene.new(4, 4);
+// let success = display_scene.get_init_val();
+// let row = display_scene.get_row();
+// let col = display_scene.get_col();
+console.log("Got init val");
+// console.log(success);
+// console.log(row);
+// console.log(col);
+
+
 // try {
 //   display_scene.readin();
 // }

@@ -17,7 +17,8 @@ T: Need to test test
 - - - - [x] Figure out how to send request from Rust to server
 - - - - [x] Make Vector2D serializable by passing row, col, size info from python -> Rust 
 - - - - [x] Convert 1D vec with row, col info too 2D vec
-- - - - [ ] Check that the init value -> Rust/WASM -> JS works
+- - - - [:(] Check that the init value -> Rust/WASM -> JS works
+- - - - [ ] Easiest solution might be get init value -> JS -> Rust/WASM
 - - - - [ ] Figure out better way for machine generated json serializing/deserializing
 - - [] How to handle test data vs not test data? Use flag to determine which file to read?
 [x] Remote dev environment using Remote vscode in Vmachine

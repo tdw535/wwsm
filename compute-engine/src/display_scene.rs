@@ -1,7 +1,11 @@
 use wasm_bindgen::prelude::*;
+use futures::executor::block_on;
 
+
+use crate::http_handler::HttpHandler;
 use math_utils::asset_reader::*;
 use math_utils::utils::array_tools::Vector2D;
+
 
 #[wasm_bindgen]
 // #[derive(Clone, Copy)]
@@ -16,11 +20,12 @@ pub struct DisplayScene {
 
 #[wasm_bindgen]
 impl DisplayScene {
-  pub fn new(row_:i32, col_: i32) -> DisplayScene {
-let row: usize = row_ as usize;
+  pub fn new(row_:i32, col_: i32, array_: &JsValue) -> DisplayScene {
+    let row: usize = row_ as usize;
     let col: usize = col_ as usize;
 
     let mut height: Vector2D<f64> = Vector2D::new(row, col);
+    height.set_vec(vec_);
     // let mut height_err = asset_reader.read_initial_values();
     // let mut height_result = asset_reader.read_initial_values();
     // height = height_result?;
@@ -49,24 +54,33 @@ let row: usize = row_ as usize;
     Ok(())
   }
 
-  pub fn get_init_val(&self) -> Vector2D<f64> {
+  pub fn get_init_val(&mut self) -> bool {
   
   let mut handler = HttpHandler::new("http://localhost:5057/a".to_string());
 
-   if let Ok(val) = handler.test_request().await {
-    println!("{:?}", val);
-   } else {
-    println!("error");
-   }
-   let mut vec_val = handler.request_init_val_and_parse_response().await;
-    
+  //  if let Ok(val) = block_on(handler.test_request()) {
+  //   println!("{:?}", val);
+  //  } else {
+  //   println!("error");
+  //  }
+   let vec_val = block_on(handler.request_init_val_and_parse_response());
+   self.height = vec_val;
+   let (row, col) = self.height.get_dim();
+   self.row = row;
+   self.col = col;
+
+   true
   }
 
-  pub fn height_zero(&self) -> f64 {
-    5.0
+  pub fn get_row(&self) -> usize {
+    self.row
     // self.height[0][0]
   }
-  pub fn height_accessible_js(&self) -> *const f64 {
+  pub fn get_col(&self) -> usize {
+    self.col
+  }
+  pub fn height_accessible_js(&mut self) -> *const f64 {
+    self.height_accessible = self.height.as_vec();
     self.height_accessible.as_ptr()
   }
 }
