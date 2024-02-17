@@ -18,3 +18,5 @@ math-utils/target/*
 
 sandbox/pkg/*
 sandbox/target/*
+
+node_modules/*
