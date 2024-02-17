@@ -10,8 +10,8 @@ ny = 40
 dx = wx/nx
 dy = wy/ny
 
-x = np.arange(0,nx)*dx
-y = np.arange(0,ny)*dy
+x = -np.pi+np.arange(0,nx)*dx
+y = -np.pi+np.arange(0,ny)*dy
 
 xg, yg = np.meshgrid(x, y, indexing='ij')
 

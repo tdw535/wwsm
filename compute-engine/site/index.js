@@ -48,19 +48,37 @@ camera.position.set(1.0, -25, 12);
 camera.rotation.set(1.14, 0.027, -0.06);
 controls.update();
 
-function animate() {
-  requestAnimationFrame(animate);
-
-  // cube.rotation.x += 0.01;
-  // cube.rotation.y += 0.01;
-
-  renderer.render(scene, camera);
-}
-
-animate();
 
 
 
+
+// function updateDiffusive(display_scene_) {
+//   console.log("Update Diffusive");
+//   // display_scene_.simple_diffusive_update();
+//   console.log("Updated next step");
+
+//   const new_zg = display_scene_.height_accessible_js();
+//   console.log("Got zg");
+
+//   const new_zg_vec = new Float64Array(memory.buffer, new_zg, 4 * 6);
+
+//   while (scene.children.length > 0) {
+//     scene.remove(scene.children[0]);
+//   }
+//   let row = display_scene_.get_row();
+//   console.log("got row", row);
+//   let col = display_scene_.get_col();
+//   console.log("got col", col);
+//   var points = [];
+//   for (let ii = 0; ii < row * col; ii++) {
+//     points.push(new THREE.Vector3(xg[ii], yg[ii], new_zg_vec[ii]));
+//   }
+
+//   var geometry = new THREE.BufferGeometry().setFromPoints(points);
+//   var dotMaterial = new THREE.PointsMaterial({ size: 3, sizeAttenuation: false });
+//   var dot = new THREE.Points(geometry, dotMaterial);
+//   scene.add(dot);
+// }
 
 function getxyz() {
   let endpoint = "http://localhost:5057/" + 'xyz';
@@ -74,38 +92,66 @@ function getxyz() {
       let zg = data.zg;
       let row = data.row;
       let col = data.col;
-      // const display_scene = DisplayScene.new(data.row, data.col, data.vals);
-      // console.log("Got init val");
-      // let row = display_scene.get_row();
-      // let col = display_scene.get_col();
-      // console.log(row);
-      // console.log(col);
-      // const height_vec_ptr = display_scene.height_accessible_js()
-      // const height_vec = new Float64Array(memory.buffer, height_vec_ptr, 4 * 6);
-      // console.log("Display scene");
-      // console.log(height_ds);
-      // console.log("Display scene height");
-      // for (let j = 0; j < 24; j++) {
-      //   console.log(height_vec[j]);
-      // }
-      while (scene.children.length > 0) {
-        scene.remove(scene.children[0]);
-      }
-      var points = [];
-      for (let ii = 0; ii < row * col; ii++) {
-        points.push(new THREE.Vector3(xg[ii], yg[ii], zg[ii]));
+      const display_scene = DisplayScene.new(data.row, data.col, data.zg);
+      console.log("Got init val");
+
+
+
+      let counter = 0;
+      while (counter < 1000) {
+        const new_zg = display_scene.height_accessible_js()
+        const new_zg_vec = new Float64Array(memory.buffer, new_zg, row * col);
+
+        // console.log(new_zg_vec[10]);
+
+        while (scene.children.length > 0) {
+          scene.remove(scene.children[0]);
+        }
+        var points = [];
+
+        for (let ii = 0; ii < row * col; ii++) {
+          // console.log(new_zg_vec[ii]);
+          points.push(new THREE.Vector3(xg[ii], yg[ii], new_zg_vec[ii]));
+        }
+
+        let drow = display_scene.get_row();
+        // console.log("got row", drow);
+        let dcol = display_scene.get_col();
+        // console.log("got col", dcol);
+
+        var geometry = new THREE.BufferGeometry().setFromPoints(points);
+        var dotMaterial = new THREE.PointsMaterial({ size: 3, sizeAttenuation: false });
+        var dot = new THREE.Points(geometry, dotMaterial);
+        scene.add(dot);
+        display_scene.simple_diffusive_update();
+        // console.log('update');
+        counter = counter + 1;
+        // animate();
       }
 
-      var geometry = new THREE.BufferGeometry().setFromPoints(points);
-      var dotMaterial = new THREE.PointsMaterial({ size: 3, sizeAttenuation: false });
-      var dot = new THREE.Points(geometry, dotMaterial);
-      scene.add(dot);
-      animate();
-
+      // updateDiffusive(display_scene);
+      // console.log("Out of scope");
     });
 }
 
+
+
+
 getxyz();
+animate();
+
+
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  // cube.rotation.x += 0.01;
+  // cube.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
+}
+
+animate();
 // getInitVal('x');
 // getInitVal('y');
 // getInitVal('z');
