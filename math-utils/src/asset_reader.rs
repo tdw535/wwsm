@@ -19,7 +19,9 @@ impl AssetReader {
 
     let mut records: Vec<StringRecord> = Vec::new();
 
-    let mut reader = ReaderBuilder::new().from_path(file_to_read)?;
+    let mut reader = ReaderBuilder::new()
+      .has_headers(false)
+      .from_path(file_to_read)?;
     for result in reader.records() {
         let record = result?;
         records.push(record);
@@ -34,10 +36,10 @@ impl AssetReader {
     let dim2 = records[0].len();
 
     let mut values: Vector2D<f64> = Vector2D::new(dim1, dim2);
-    for jj in 0..dim1 {
-      for ii in 0..dim2 {
-        let value_as_float:f64 = records[jj][ii].parse().unwrap(); 
-        values[jj][ii] = value_as_float;
+    for ii in 0..dim1 {
+      for jj in 0..dim2 {
+        let value_as_float:f64 = records[ii][jj].parse().unwrap(); 
+        values[ii][jj] = value_as_float;
       }
     }
     values
@@ -60,15 +62,15 @@ mod tests {
     };
 
 
-    let val_as_array = [1.0, 0.0, -1.0, 0.0]; 
-    let expected_values: Vec<f64> = val_as_array.to_vec(); 
+    // let val_as_array = [1.0, 0.0, -1.0, 0.0]; 
     print!("Values are");
     for ii in 0..5 {
       for jj in 0..3 {
-        let diff:f64 = (expected_values[jj] - init_vals[ii][jj]).abs();
-        println!("{}, {}",expected_values[jj], init_vals[ii][jj]);
+        let expected_value:f64 = (ii + jj) as f64;
+        let diff:f64 = (expected_value - init_vals[ii][jj]).abs();
+        println!("{}, {}",expected_value, init_vals[ii][jj]);
         ma::assert_le!(diff, 1e-3);
       }
     }
-    }
+  }
 }

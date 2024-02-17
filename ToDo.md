@@ -4,11 +4,26 @@ D: Done
 T: Need to test test
 
 - Figure out animation
-- [ ] Figure out how to use math-utils in compute-engine, so that we can
+- [c] Figure out how to use math-utils in compute-engine, so that we can
 - - [x] read in test data from asset_reader
-- - [ ] make the data accessible for the JS side
-- - [ ] Figure out why data is not being piped through; possibly due to using another library
-- - [ ] How to handle test data vs not test data? Use flag to determine which file to read?
+- - [x] make the data accessible for the JS side
+- - [x] Figure out why data is not being piped through; possibly due to using another library
+- - [x] Figure out how to use match in init or use some other init func; seems like match/result is causing the issue
+- - [x] Fix issue of numbers being passed in being not the expected values
+- - [i] Try/Catch issue in JS
+- - - [x] Why issue reading in file when wasm? 
+- - [ ] Eventually go for getting info from server; use dummy function to set up init vals
+- - - - [ ] Work around, read in data from JS side and pass to Rust?
+- - - - [x] Figure out how to send request from Rust to server
+- - - - [x] Make Vector2D serializable by passing row, col, size info from python -> Rust 
+- - - - [x] Convert 1D vec with row, col info too 2D vec
+- - - - [:(] Check that the init value -> Rust/WASM -> JS works
+- - - - [ ] Easiest solution might be get init value -> JS -> Rust/WASM
+- - - - [ ] Figure out better way for machine generated json serializing/deserializing
+- - - [ ] Allow for translation (cf orbital controls in three js)
+- - - [x] Make display take up bigger space (scale)
+- - - [x] Figure out animate for simple diffusive update
+- - [] How to handle test data vs not test data? Use flag to determine which file to read?
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing
 - Figure out directory structure
