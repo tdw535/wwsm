@@ -20,6 +20,8 @@ T: Need to test test
 - - - - [:(] Check that the init value -> Rust/WASM -> JS works
 - - - - [ ] Easiest solution might be get init value -> JS -> Rust/WASM
 - - - - [ ] Figure out better way for machine generated json serializing/deserializing
+- - - [ ] Allow for translation (cf orbital controls in three js)
+- - - [ ] Make display take up bigger space (scale)
 - - [] How to handle test data vs not test data? Use flag to determine which file to read?
 [x] Remote dev environment using Remote vscode in Vmachine
 - Figure out testing

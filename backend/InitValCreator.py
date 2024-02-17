@@ -4,8 +4,8 @@ import numpy as np
 wx = 2*np.pi
 wy = 2*np.pi
 
-nx = 4
-ny = 6
+nx = 20
+ny = 40
 
 dx = wx/nx
 dy = wy/ny
@@ -22,3 +22,5 @@ print(xg)
 print(len(Z))
 
 np.savetxt("../assets/sin1.csv", Z, delimiter=",")
+np.savetxt("../assets/xgrid.csv",xg,delimiter=",")
+np.savetxt("../assets/ygrid.csv",yg,delimiter=",")
