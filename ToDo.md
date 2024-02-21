@@ -5,6 +5,8 @@ T: Need to test test
 
 - Figure out animation
 - [c] Figure out how to use math-utils in compute-engine, so that we can
+- - [ ] Do simple Wave equation with FFTs
+- - - [ ] Set up simple test case
 - - [x] read in test data from asset_reader
 - - [x] make the data accessible for the JS side
 - - [x] Figure out why data is not being piped through; possibly due to using another library

@@ -146,7 +146,7 @@ impl<T: Default + Copy> core::ops::Mul<T> for &Vector2D<T> where T: Mul<T, Outpu
 // }
 
 // Would be nice to convert to Generic
-fn convert_vector2d_real_to_complex(real_vec: Vector2D<f64>) -> Vector2D<Complex<f64>> {
+pub fn convert_vector2d_real_to_complex(real_vec: Vector2D<f64>) -> Vector2D<Complex<f64>> {
   let mut output = Vector2D::<Complex<f64>>::new(real_vec.num_row, real_vec.num_col);
 
   for ii in 0..real_vec.num_row {
